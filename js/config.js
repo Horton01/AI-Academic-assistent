@@ -1,237 +1,240 @@
 /**
  * ============================================================
- * AI 文献助手 — 全局配置文件
- * 所有商业化开关、定价、次数、文案均在此集中管理
- * 修改此文件即可一键控制全站商业模块的开启/隐藏
+ * AI Literature Assistant — Global Configuration
+ * All commercial toggles, pricing, quotas, and copy are managed here.
+ * Edit this file to control all monetization modules site-wide.
  * ============================================================
  */
 
 const APP_CONFIG = {
-  // ---- 产品基础信息 ----
+  // ---- Brand Info ----
   brand: {
-    name: 'AI 文献助手',
-    slogan: '跨境学术与职场文献的 AI 处理工具',
-    shortDesc: '专注外文文献拆解 · 中英学术翻译 · 文献总结 · 多文献对比',
+    name: 'AI Literature Assistant',
+    slogan: 'AI-Powered Cross-Border Academic & Professional Document Processing',
+    shortDesc: 'Foreign literature analysis · Academic translation · Summarization · Multi-document comparison',
     logo: 'assets/logo.svg',
     favicon: 'assets/favicon.ico',
   },
 
-  // ---- 商业化总开关 ----
-  // true = 显示所有付费入口（会员页、升级提示、导出锁等）
-  // false = 隐藏所有付费入口，纯免费工具
+  // ---- Commercial Master Switch ----
+  // true = show all paid entry points (membership, upgrade prompts, export lock, etc.)
+  // false = hide all paid entry points, pure free tool
   commercial: {
     enabled: true,
 
-    // 细粒度开关（仅在 commercial.enabled = true 时生效）
-    membershipPage: true,       // 会员中心页面
-    upgradePrompts: true,       // 工具页结果区升级提示
-    exportLock: true,           // 导出按钮加锁
-    featureLock: true,          // 高阶功能置灰
-    quotaSystem: true,          // 免费次数限制
-    promoBanner: true,          // 首页活动 banner
-    newUserGift: true,          // 新人福利弹窗
-    privateDomain: true,        // 私域引流（微信/社群）
-    navMemberBtn: true,         // 导航栏「开通会员」按钮
+    // Granular toggles (only effective when commercial.enabled = true)
+    membershipPage: true,
+    upgradePrompts: true,
+    exportLock: true,
+    featureLock: true,
+    quotaSystem: true,
+    promoBanner: true,
+    newUserGift: true,
+    privateDomain: true,
+    navMemberBtn: true,
   },
 
-  // ---- 免费额度配置 ----
+  // ---- Free Quota Config ----
   quota: {
-    freeDailyLimit: 3,          // 免费用户每日次数
-    resetHour: 0,               // 每日重置时间（0-23 时）
+    freeDailyLimit: 3,
+    resetHour: 0,
   },
 
-  // ---- 功能列表及权限 ----
+  // ---- Functions & Permissions ----
   // tier: 'free' | 'monthly' | 'yearly'
   functions: [
     {
       id: 'summarize',
-      name: '文献智能总结',
+      name: 'Smart Literature Summary',
       icon: '📄',
-      desc: 'AI 快速提炼文献核心观点、研究方法与结论',
+      desc: 'AI extracts core arguments, methodology, and conclusions from academic papers',
       tier: 'free',
       category: 'free',
     },
     {
       id: 'translate',
-      name: '中英学术翻译',
+      name: 'Academic Translation',
       icon: '🌐',
-      desc: '学术级中英互译，保留专业术语与学术表达',
+      desc: 'Scholarly-grade translation preserving academic terminology and nuance across languages',
       tier: 'free',
       category: 'free',
     },
     {
       id: 'keywords',
-      name: '关键词 / 摘要提取',
+      name: 'Keywords & Abstract Extraction',
       icon: '🔑',
-      desc: '自动提取核心关键词与结构化摘要',
+      desc: 'Automatically extract key terms and generate structured abstracts',
       tier: 'free',
       category: 'free',
     },
     {
       id: 'deep_analysis',
-      name: '多层级深度拆解',
+      name: 'Multi-Layer Deep Analysis',
       icon: '🔬',
-      desc: '逐章节分析、方法论评估、创新点识别',
+      desc: 'Chapter-by-chapter breakdown, methodology critique, innovation identification',
       tier: 'paid',
       category: 'paid',
     },
     {
       id: 'compare',
-      name: '多文献对比分析',
+      name: 'Multi-Document Comparison',
       icon: '⚖️',
-      desc: '最多 5 篇文献横向对比，生成差异矩阵',
+      desc: 'Side-by-side comparison of up to 5 papers with difference matrix generation',
       tier: 'paid',
       category: 'paid',
     },
     {
       id: 'citation',
-      name: '引用格式批量转换',
+      name: 'Batch Citation Formatting',
       icon: '📝',
-      desc: '支持 APA/MLA/Chicago/GB/T 等主流格式互转',
+      desc: 'Convert citations between APA, MLA, Chicago, Harvard, GB/T and more',
       tier: 'paid',
       category: 'paid',
     },
   ],
 
-  // ---- 会员套餐配置 ----
+  // ---- Membership Plans ----
   membership: {
     plans: [
       {
         id: 'free',
-        name: '免费版',
+        name: 'Free',
         price: 0,
         period: '',
-        priceLabel: '免费',
+        priceLabel: 'Free',
         popular: false,
         features: [
-          { label: '每日基础总结/翻译', value: '3 次' },
-          { label: '关键词/摘要提取', value: '3 次' },
-          { label: '深度拆解', value: '—' },
-          { label: '多文献对比', value: '—' },
-          { label: '引用格式转换', value: '—' },
-          { label: '导出（Word/PDF）', value: '—' },
-          { label: '模型优先级', value: '基础模型' },
-          { label: '长文本处理', value: '最多 5000 字' },
-          { label: '多文献数量', value: '—' },
-          { label: '专属模板', value: '—' },
+          { label: 'Summary / Translation', value: '3 / day' },
+          { label: 'Keyword Extraction', value: '3 / day' },
+          { label: 'Deep Analysis', value: '—' },
+          { label: 'Multi-Doc Comparison', value: '—' },
+          { label: 'Citation Formatting', value: '—' },
+          { label: 'Export (Word/PDF)', value: '—' },
+          { label: 'Model Priority', value: 'Basic' },
+          { label: 'Max Text Length', value: '5,000 chars' },
+          { label: 'Comparison Docs', value: '—' },
+          { label: 'Exclusive Templates', value: '—' },
         ],
-        cta: '当前方案',
+        cta: 'Current Plan',
         ctaStyle: 'secondary',
       },
       {
         id: 'monthly',
-        name: '月卡会员',
+        name: 'Monthly',
         price: 19,
-        period: '月',
-        priceLabel: '¥19 / 月',
+        period: '/mo',
+        priceLabel: '$2.99 / mo',
         popular: true,
         features: [
-          { label: '每日基础总结/翻译', value: '30 次' },
-          { label: '关键词/摘要提取', value: '30 次' },
-          { label: '深度拆解', value: '✓' },
-          { label: '多文献对比', value: '✓' },
-          { label: '引用格式转换', value: '✓' },
-          { label: '导出（Word/PDF）', value: '✓' },
-          { label: '模型优先级', value: '优先模型' },
-          { label: '长文本处理', value: '最多 20000 字' },
-          { label: '多文献数量', value: '最多 5 篇' },
-          { label: '专属模板', value: '—' },
+          { label: 'Summary / Translation', value: '30 / day' },
+          { label: 'Keyword Extraction', value: '30 / day' },
+          { label: 'Deep Analysis', value: '✓' },
+          { label: 'Multi-Doc Comparison', value: '✓' },
+          { label: 'Citation Formatting', value: '✓' },
+          { label: 'Export (Word/PDF)', value: '✓' },
+          { label: 'Model Priority', value: 'Priority' },
+          { label: 'Max Text Length', value: '20,000 chars' },
+          { label: 'Comparison Docs', value: 'Up to 5' },
+          { label: 'Exclusive Templates', value: '—' },
         ],
-        cta: '立即开通月卡',
+        cta: 'Start Monthly',
         ctaStyle: 'primary',
       },
       {
         id: 'yearly',
-        name: '年卡会员',
+        name: 'Yearly',
         price: 199,
-        period: '年',
-        priceLabel: '¥199 / 年',
+        period: '/yr',
+        priceLabel: '$29.99 / yr',
         popular: false,
         features: [
-          { label: '每日基础总结/翻译', value: '无限次' },
-          { label: '关键词/摘要提取', value: '无限次' },
-          { label: '深度拆解', value: '✓' },
-          { label: '多文献对比', value: '✓' },
-          { label: '引用格式转换', value: '✓' },
-          { label: '导出（Word/PDF）', value: '✓' },
-          { label: '模型优先级', value: '优先高速模型' },
-          { label: '长文本处理', value: '最多 50000 字' },
-          { label: '多文献数量', value: '最多 10 篇' },
-          { label: '专属模板', value: '✓' },
+          { label: 'Summary / Translation', value: 'Unlimited' },
+          { label: 'Keyword Extraction', value: 'Unlimited' },
+          { label: 'Deep Analysis', value: '✓' },
+          { label: 'Multi-Doc Comparison', value: '✓' },
+          { label: 'Citation Formatting', value: '✓' },
+          { label: 'Export (Word/PDF)', value: '✓' },
+          { label: 'Model Priority', value: 'Priority Fast' },
+          { label: 'Max Text Length', value: '50,000 chars' },
+          { label: 'Comparison Docs', value: 'Up to 10' },
+          { label: 'Exclusive Templates', value: '✓' },
         ],
-        cta: '立即开通年卡',
+        cta: 'Start Yearly',
         ctaStyle: 'primary',
       },
     ],
   },
 
-  // ---- 活动/促销配置 ----
+  // ---- Promo Config ----
   promo: {
     banner: {
-      text: '🎓 留学申请季 · 年卡限时 8 折 · 助力学术之路',
+      text: '🎓 Academic Season · 20% off yearly plan · Accelerate your research',
       link: '#membership',
       bgClass: 'bg-gradient-to-r from-blue-600 to-indigo-600',
     },
     newUserGift: {
-      title: '欢迎使用 AI 文献助手',
-      body: '新用户免费领取 <strong>3 天会员体验</strong>，畅享全部功能。<br>限时福利，立即开启高效文献处理体验。',
+      title: 'Welcome to AI Literature Assistant',
+      body: 'New users get a <strong>3-day free trial</strong> with full access to all features.<br>Limited-time offer — start processing literature efficiently today.',
       couponCode: 'NEW3DAY',
-      btnText: '免费领取',
+      btnText: 'Claim Free Trial',
     },
     privateDomain: {
-      wechatQrText: '扫码添加小助手，领取学术资料包',
-      communityText: '加入学术交流群，与同行交流',
+      wechatQrText: 'Scan to add our assistant and get academic resource pack',
+      communityText: 'Join our academic community and connect with peers',
     },
   },
 
-  // ---- 文案配置（可替换为后台数据） ----
+  // ---- Text Copy (backend-configurable) ----
   texts: {
-    upgradeModalTitle: '升级会员，解锁完整功能',
-    upgradeModalBody: '该功能为会员专属。开通会员即可使用深度拆解、多文献对比、引用格式转换等全部高阶功能，并享受优先模型与导出权限。',
-    quotaExhaustedTitle: '今日免费次数已用完',
-    quotaExhaustedBody: '您今日的 <strong>{used}/{limit}</strong> 次免费额度已用完。<br>升级会员即可获得更多次数与高级功能。',
-    exportLockedTip: '导出为会员专属功能，升级后即可使用',
-    resultUpgradeTip: '以上为基础分析结果。升级会员解锁完整深度分析、多维度评估与一键导出。',
-    modelBadgeBasic: '基础模型',
-    modelBadgePriority: '优先模型',
-    modelBadgeFast: '优先高速模型',
+    upgradeModalTitle: 'Upgrade to Unlock All Features',
+    upgradeModalBody: 'This feature is exclusive to members. Upgrade to access deep analysis, multi-document comparison, citation formatting, priority models, and export capabilities.',
+    quotaExhaustedTitle: 'Daily Free Limit Reached',
+    quotaExhaustedBody: 'You have used all <strong>{used}/{limit}</strong> free uses for today.<br>Upgrade to get more uses and advanced features.',
+    exportLockedTip: 'Export is a member-only feature. Upgrade to unlock.',
+    resultUpgradeTip: 'This is the basic analysis result. Upgrade to unlock complete in-depth analysis, multi-dimensional evaluation, and one-click export.',
+    modelBadgeBasic: 'Basic Model',
+    modelBadgePriority: 'Priority Model',
+    modelBadgeFast: 'Priority Fast Model',
   },
 
-  // ---- DeepSeek API 配置 ----
+  // ---- API Config ----
+  // baseUrl: Set to backend URL in production (e.g., "https://api.yourdomain.com").
+  // Leave empty for same-origin proxy or local dev.
+  // mockEnabled: true = use mock data; false = call real backend.
   api: {
-    endpoint: '/api/deepseek',   // 真实接口地址（后续替换）
-    mockEnabled: true,            // true=使用 mock, false=调用真实接口
-    mockDelay: 1500,              // mock 模拟延迟（ms）
-    timeout: 30000,               // 请求超时（ms）
+    baseUrl: '',
+    endpoint: '/api/deepseek',
+    mockEnabled: true,
+    mockDelay: 1500,
+    timeout: 30000,
   },
 
-  // ---- 导航菜单 ----
+  // ---- Navigation ----
   nav: [
-    { label: '首页', href: '#home', icon: '' },
-    { label: '工具中心', href: '#tools', icon: '' },
-    { label: '会员中心', href: '#membership', icon: '', showWhen: 'commercial.membershipPage' },
-    { label: '个人中心', href: '#profile', icon: '' },
-    { label: '帮助中心', href: '#help', icon: '' },
+    { label: 'Home', href: '#home', icon: '' },
+    { label: 'Tools', href: '#tools', icon: '' },
+    { label: 'Membership', href: '#membership', icon: '', showWhen: 'commercial.membershipPage' },
+    { label: 'Account', href: '#profile', icon: '' },
+    { label: 'Help', href: '#help', icon: '' },
   ],
 
-  // ---- 用户 mock 数据 ----
+  // ---- Mock User Data ----
   mockUser: {
-    username: '学术用户',
+    username: 'Scholar User',
     email: 'user@example.com',
-    tier: 'free',                // 'free' | 'monthly' | 'yearly'
-    expireDate: null,            // 会员到期日期 (ISO string or null)
-    remainingToday: 3,           // 今日剩余次数
-    totalUsed: 12,               // 累计使用次数
+    tier: 'free',
+    expireDate: null,
+    remainingToday: 3,
+    totalUsed: 12,
     memberSince: '2025-01-15',
     records: [
       { date: '2025-01-16', type: 'summarize', title: 'Machine Learning Survey 2024', words: 3500 },
-      { date: '2025-01-16', type: 'translate', title: '深度学习在NLP中的应用', words: 1200 },
+      { date: '2025-01-16', type: 'translate', title: 'Deep Learning Applications in NLP', words: 1200 },
       { date: '2025-01-15', type: 'keywords', title: 'Transformer Architecture Paper', words: 8000 },
     ],
   },
 };
 
-// 冻结配置防止运行时修改
 Object.freeze(APP_CONFIG);
 Object.freeze(APP_CONFIG.brand);
 Object.freeze(APP_CONFIG.commercial);

@@ -1,14 +1,13 @@
 /**
  * ============================================================
- * AI 文献助手 — 主应用模块
- * 负责：全局初始化、UI 交互绑定、页面渲染、弹窗管理
+ * AI Literature Assistant — Main Application Module
+ * Handles: global init, UI bindings, page rendering, modal management
  * ============================================================
  */
 
 const App = (() => {
-  // ---- 初始化 ----
-  function init() {
-    Auth.init();
+  async function init() {
+    await Auth.init();
     Router.init();
     _bindGlobalEvents();
     _updateGlobalUI();
@@ -17,14 +16,10 @@ const App = (() => {
     _initMembershipPage();
     _initProfilePage();
     _initHelpPage();
-
-    // 监听用户状态变更，刷新 UI
     Auth.onChange(() => _updateGlobalUI());
   }
 
-  // ---- 全局事件绑定 ----
   function _bindGlobalEvents() {
-    // 弹窗关闭按钮
     document.querySelectorAll('[data-close-modal]').forEach(btn => {
       btn.addEventListener('click', function () {
         const modalId = this.getAttribute('data-close-modal');
@@ -32,40 +27,31 @@ const App = (() => {
       });
     });
 
-    // 点击遮罩关闭弹窗
     document.querySelectorAll('.modal-overlay').forEach(overlay => {
       overlay.addEventListener('click', function (e) {
-        if (e.target === this) {
-          this.classList.add('hidden');
-        }
+        if (e.target === this) { this.classList.add('hidden'); }
       });
     });
 
-    // 移动端菜单切换
     const menuToggle = document.getElementById('mobile-menu-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
     if (menuToggle && mobileMenu) {
-      menuToggle.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-      });
+      menuToggle.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
     }
   }
 
-  // ---- 更新全局 UI（导航、额度显示等） ----
   function _updateGlobalUI() {
-    const tier = Auth.getTier();
     const isMember = Auth.isMember();
 
-    // 导航栏会员按钮
     const navMemberBtn = document.getElementById('nav-member-btn');
     if (navMemberBtn) {
       if (APP_CONFIG.commercial.enabled && APP_CONFIG.commercial.navMemberBtn) {
         if (isMember) {
-          navMemberBtn.textContent = '我的会员';
+          navMemberBtn.textContent = 'My Plan';
           navMemberBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
           navMemberBtn.classList.add('bg-green-600', 'hover:bg-green-700');
         } else {
-          navMemberBtn.textContent = '开通会员';
+          navMemberBtn.textContent = 'Upgrade';
           navMemberBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
           navMemberBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
         }
@@ -75,21 +61,18 @@ const App = (() => {
       }
     }
 
-    // 会员中心导航项
     const navMembership = document.getElementById('nav-membership');
     if (navMembership) {
       navMembership.style.display =
         (APP_CONFIG.commercial.enabled && APP_CONFIG.commercial.membershipPage) ? '' : 'none';
     }
 
-    // 页面内额度显示
     document.querySelectorAll('[data-quota-display]').forEach(el => {
       const remaining = Auth.getRemainingQuota();
-      el.textContent = remaining === Infinity ? '无限' : remaining;
+      el.textContent = remaining === Infinity ? 'Unlimited' : remaining;
     });
   }
 
-  // ---- 弹窗管理 ----
   function _openModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) modal.classList.remove('hidden');
@@ -101,19 +84,18 @@ const App = (() => {
   }
 
   // =============================================================
-  //                       首页初始化
+  //                       Home Page
   // =============================================================
   function _initHomePage() {
-    // 功能卡片渲染
     const cardsContainer = document.getElementById('feature-cards');
     if (cardsContainer) {
       cardsContainer.innerHTML = APP_CONFIG.functions.map(fn => {
         const isPaid = fn.category === 'paid';
         const paidBadge = isPaid && APP_CONFIG.commercial.enabled && APP_CONFIG.commercial.featureLock
-          ? '<span class="ml-2 px-2 py-0.5 text-xs bg-amber-100 text-amber-700 rounded-full">会员</span>'
+          ? '<span class="ml-2 px-2 py-0.5 text-xs bg-amber-100 text-amber-700 rounded-full">Member</span>'
           : '';
         const freeBadge = !isPaid
-          ? '<span class="ml-2 px-2 py-0.5 text-xs bg-green-100 text-green-700 rounded-full">免费</span>'
+          ? '<span class="ml-2 px-2 py-0.5 text-xs bg-green-100 text-green-700 rounded-full">Free</span>'
           : '';
         return `
           <div class="feature-card bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer"
@@ -128,7 +110,6 @@ const App = (() => {
       }).join('');
     }
 
-    // 活动 banner
     const promoBanner = document.getElementById('promo-banner');
     if (promoBanner) {
       if (APP_CONFIG.commercial.enabled && APP_CONFIG.commercial.promoBanner) {
@@ -138,7 +119,6 @@ const App = (() => {
       }
     }
 
-    // 私域引流
     const privateSection = document.getElementById('private-domain-section');
     if (privateSection) {
       if (APP_CONFIG.commercial.enabled && APP_CONFIG.commercial.privateDomain) {
@@ -148,7 +128,6 @@ const App = (() => {
       }
     }
 
-    // 新人福利弹窗（首次访问）
     if (APP_CONFIG.commercial.enabled && APP_CONFIG.commercial.newUserGift) {
       const hasSeenGift = localStorage.getItem('ai_lit_gift_seen');
       if (!hasSeenGift) {
@@ -157,27 +136,24 @@ const App = (() => {
     }
   }
 
-  // ---- 领取新人福利 ----
   function claimNewUserGift() {
     Auth.activateTrial(3);
     localStorage.setItem('ai_lit_gift_seen', '1');
     _closeModal('modal-new-user-gift');
     _updateGlobalUI();
     Router.navigate('tools');
-    _showToast('领取成功！3 天会员体验已生效', 'success');
+    _showToast('Success! 3-day trial activated.', 'success');
   }
 
-  // ---- 关闭新人弹窗 ----
   function dismissNewUserGift() {
     localStorage.setItem('ai_lit_gift_seen', '1');
     _closeModal('modal-new-user-gift');
   }
 
   // =============================================================
-  //                     工具中心页初始化
+  //                       Tools Page
   // =============================================================
   function _initToolsPage() {
-    // 功能复选框渲染
     const fnCheckboxes = document.getElementById('function-checkboxes');
     if (fnCheckboxes) {
       fnCheckboxes.innerHTML = APP_CONFIG.functions.map(fn => {
@@ -185,39 +161,33 @@ const App = (() => {
         const locked = isPaid && APP_CONFIG.commercial.enabled && APP_CONFIG.commercial.featureLock && !Auth.isMember();
         return `
           <label class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors ${locked ? 'opacity-50' : ''}"
-                 title="${locked ? '开通会员解锁' : ''}">
+                 title="${locked ? 'Upgrade to unlock' : ''}">
             <input type="checkbox" value="${fn.id}" class="fn-checkbox rounded text-blue-600 focus:ring-blue-500"
                    ${locked ? 'disabled' : ''} />
             <span class="text-sm font-medium text-gray-700">${fn.icon} ${fn.name}</span>
-            ${locked ? '<span class="text-xs text-amber-600 ml-auto">🔒 会员</span>' : ''}
-            ${!isPaid ? '<span class="text-xs text-green-600 ml-auto">免费</span>' : ''}
+            ${locked ? '<span class="text-xs text-amber-600 ml-auto">🔒 Member</span>' : ''}
+            ${!isPaid ? '<span class="text-xs text-green-600 ml-auto">Free</span>' : ''}
           </label>
         `;
       }).join('');
     }
 
-    // 文件上传区域
     _initFileUpload();
 
-    // 提交按钮
     const submitBtn = document.getElementById('btn-submit-tool');
-    if (submitBtn) {
-      submitBtn.addEventListener('click', _handleToolSubmit);
-    }
+    if (submitBtn) { submitBtn.addEventListener('click', _handleToolSubmit); }
 
-    // 导出按钮
     document.querySelectorAll('[data-export]').forEach(btn => {
       btn.addEventListener('click', function () {
         const format = this.getAttribute('data-export');
         if (Auth.isMember()) {
-          _showToast(`${format} 导出功能开发中，敬请期待`, 'info');
+          _showToast(`${format} export is under development — coming soon`, 'info');
         } else {
           _openModal('modal-upgrade');
         }
       });
     });
 
-    // 初始渲染额度
     _updateQuotaDisplay();
     Auth.onChange(() => _updateQuotaDisplay());
   }
@@ -226,7 +196,6 @@ const App = (() => {
     const dropZone = document.getElementById('file-drop-zone');
     const fileInput = document.getElementById('file-input');
     const fileName = document.getElementById('file-name');
-
     if (!dropZone || !fileInput) return;
 
     dropZone.addEventListener('click', () => fileInput.click());
@@ -238,16 +207,13 @@ const App = (() => {
       }
     });
 
-    // 拖拽事件
     dropZone.addEventListener('dragover', (e) => {
       e.preventDefault();
       dropZone.classList.add('border-blue-400', 'bg-blue-50');
     });
-
     dropZone.addEventListener('dragleave', () => {
       dropZone.classList.remove('border-blue-400', 'bg-blue-50');
     });
-
     dropZone.addEventListener('drop', (e) => {
       e.preventDefault();
       dropZone.classList.remove('border-blue-400', 'bg-blue-50');
@@ -266,43 +232,37 @@ const App = (() => {
     const file = fileInput?.files?.[0];
 
     if (!text && !file) {
-      _showToast('请输入文本或上传文件', 'warning');
+      _showToast('Please enter text or upload a file', 'warning');
       return;
     }
 
-    // 获取选中的功能
     const checkedBoxes = document.querySelectorAll('.fn-checkbox:checked');
     if (checkedBoxes.length === 0) {
-      _showToast('请至少选择一个功能', 'warning');
+      _showToast('Please select at least one function', 'warning');
       return;
     }
 
     const functionType = checkedBoxes[0].value;
     const userTier = Auth.getTier();
 
-    // 检查功能权限
     if (!Auth.canUse(functionType)) {
       _openModal('modal-upgrade');
       return;
     }
 
-    // 检查次数
-    if (!Auth.hasQuota()) {
-      _renderQuotaExhaustedModal();
+    if (!Auth.hasQuota() && !Auth.isServerMode()) {
+      _renderQuotaExhaustedModal(APP_CONFIG.quota.freeDailyLimit, APP_CONFIG.quota.freeDailyLimit);
       _openModal('modal-quota-exhausted');
       return;
     }
 
-    // 消耗次数
     Auth.consumeQuota();
     _updateQuotaDisplay();
 
-    // 显示加载状态
     _setLoading(true);
 
-    // 调用 API
     const response = await API.callDeepSeek({
-      text: text || '上传文件内容（模拟）',
+      text: text || 'Uploaded file content (simulated)',
       functionType,
       userTier,
       file,
@@ -312,25 +272,27 @@ const App = (() => {
 
     if (response.success) {
       _renderResult(response.data);
-      Auth.addRecord(functionType, text?.substring(0, 50) || file?.name || '未命名', text?.length || 0);
+      Auth.addRecord(functionType, text?.substring(0, 50) || file?.name || 'Untitled', text?.length || 0);
+      _updateQuotaDisplay();
     } else if (response.requireUpgrade) {
       _openModal('modal-upgrade');
+    } else if (response.quotaExhausted) {
+      _renderQuotaExhaustedModal(response.used, response.limit);
+      _openModal('modal-quota-exhausted');
     } else {
-      _showToast(response.error || '处理失败，请重试', 'error');
+      _showToast(response.error || 'Processing failed. Please try again.', 'error');
     }
   }
 
   function _setLoading(loading) {
     const loadingEl = document.getElementById('loading-indicator');
-    const resultEl = document.getElementById('result-area');
     const submitBtn = document.getElementById('btn-submit-tool');
-
     if (loadingEl) loadingEl.classList.toggle('hidden', !loading);
     if (submitBtn) {
       submitBtn.disabled = loading;
       submitBtn.innerHTML = loading
-        ? '<span class="inline-block animate-spin mr-2">⏳</span>处理中...'
-        : '开始处理';
+        ? '<span class="inline-block animate-spin mr-2">⏳</span>Processing...'
+        : 'Start Processing';
     }
   }
 
@@ -352,7 +314,7 @@ const App = (() => {
         : 'px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700';
     }
     if (resultMeta) {
-      resultMeta.textContent = `Tokens: ${data.tokens} · ${new Date(data.timestamp).toLocaleString('zh-CN')}`;
+      resultMeta.textContent = `Tokens: ${data.tokens} · ${new Date(data.timestamp).toLocaleString('en-US')}`;
     }
     if (upgradeTip) {
       const isFree = Auth.getTier() === 'free';
@@ -374,47 +336,43 @@ const App = (() => {
 
     quotaEl.classList.remove('hidden');
     if (tier === 'yearly') {
-      quotaEl.innerHTML = '<span class="text-green-600">年卡会员 · 无限次使用</span>';
+      quotaEl.innerHTML = '<span class="text-green-600">Yearly Member · Unlimited uses</span>';
     } else if (tier === 'monthly') {
-      quotaEl.innerHTML = `<span class="text-blue-600">月卡会员 · 今日剩余 ${remaining} 次</span>`;
+      quotaEl.innerHTML = `<span class="text-blue-600">Monthly Member · ${remaining} remaining today</span>`;
     } else {
       const limit = APP_CONFIG.quota.freeDailyLimit;
       if (remaining <= 0) {
-        quotaEl.innerHTML = `<span class="text-red-600">今日免费次数已用完</span>
-          <button class="ml-2 text-sm text-blue-600 underline" onclick="App.openUpgradeModal()">升级会员</button>`;
+        quotaEl.innerHTML = `<span class="text-red-600">Daily free limit reached</span>
+          <button class="ml-2 text-sm text-blue-600 underline" onclick="App.openUpgradeModal()">Upgrade</button>`;
       } else {
-        quotaEl.innerHTML = `<span class="text-gray-500">今日剩余免费次数：<strong>${remaining}</strong> / ${limit}</span>`;
+        quotaEl.innerHTML = `<span class="text-gray-500">Today's free quota: <strong>${remaining}</strong> / ${limit}</span>`;
       }
     }
   }
 
-  function _renderQuotaExhaustedModal() {
+  function _renderQuotaExhaustedModal(used, limit) {
     const body = document.getElementById('quota-exhausted-body');
     if (body) {
       body.innerHTML = APP_CONFIG.texts.quotaExhaustedBody
-        .replace('{used}', APP_CONFIG.quota.freeDailyLimit)
-        .replace('{limit}', APP_CONFIG.quota.freeDailyLimit);
+        .replace('{used}', used)
+        .replace('{limit}', limit);
     }
   }
 
-  // ---- 跳转到工具页并预选功能 ----
   function goToTools(functionId) {
     Router.navigate('tools');
-    // 延迟勾选对应 checkbox
     setTimeout(() => {
       const cb = document.querySelector(`.fn-checkbox[value="${functionId}"]`);
       if (cb) {
-        // 取消所有勾选
         document.querySelectorAll('.fn-checkbox').forEach(c => c.checked = false);
         cb.checked = true;
-        // 滚动到输入区
         document.getElementById('tool-text-input')?.scrollIntoView({ behavior: 'smooth' });
       }
     }, 100);
   }
 
   // =============================================================
-  //                     会员中心页初始化
+  //                       Membership Page
   // =============================================================
   function _initMembershipPage() {
     const plansContainer = document.getElementById('membership-plans');
@@ -422,11 +380,11 @@ const App = (() => {
 
     plansContainer.innerHTML = APP_CONFIG.membership.plans.map(plan => `
       <div class="bg-white rounded-2xl border-2 ${plan.popular ? 'border-blue-500 shadow-lg relative' : 'border-gray-200'} p-8 flex flex-col">
-        ${plan.popular ? '<span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs px-4 py-1 rounded-full">最受欢迎</span>' : ''}
+        ${plan.popular ? '<span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs px-4 py-1 rounded-full">Most Popular</span>' : ''}
         <h3 class="text-xl font-bold text-gray-900 mb-1">${plan.name}</h3>
         <div class="mb-6">
           <span class="text-4xl font-bold text-gray-900">${plan.priceLabel}</span>
-          ${plan.period ? `<span class="text-gray-400 text-sm">/${plan.period}</span>` : ''}
+          ${plan.period ? `<span class="text-gray-400 text-sm">${plan.period}</span>` : ''}
         </div>
         <ul class="space-y-3 mb-8 flex-1">
           ${plan.features.map(f => `
@@ -444,7 +402,6 @@ const App = (() => {
     `).join('');
   }
 
-  // ---- 打开支付弹窗 ----
   function openPaymentModal(planId) {
     const plan = APP_CONFIG.membership.plans.find(p => p.id === planId);
     if (!plan) return;
@@ -457,40 +414,45 @@ const App = (() => {
     _openModal('modal-payment');
   }
 
-  // ---- 确认支付（mock） ----
-  function confirmPayment() {
+  async function confirmPayment() {
     const planName = document.getElementById('payment-plan-name')?.textContent || '';
     const plan = APP_CONFIG.membership.plans.find(p => p.name === planName);
-    if (plan) {
-      Auth.upgradeTo(plan.id);
-      _closeModal('modal-payment');
-      _updateGlobalUI();
-      _showToast(`支付成功！已升级为${plan.name}`, 'success');
-      setTimeout(() => Router.navigate('tools'), 1000);
+    if (!plan || plan.id === 'free') return;
+
+    // If in server mode, redirect to Stripe Checkout
+    if (Auth.isServerMode()) {
+      const result = await Auth.createCheckoutSession(plan.id);
+      if (!result.success) {
+        _showToast(result.error || 'Failed to start checkout', 'error');
+      }
+      // Page will redirect on success — no need to close modal
+      return;
     }
+
+    // Mock mode: direct upgrade
+    Auth.upgradeTo(plan.id);
+    _closeModal('modal-payment');
+    _updateGlobalUI();
+    _showToast(`Payment successful! Upgraded to ${plan.name}.`, 'success');
+    setTimeout(() => Router.navigate('tools'), 1000);
   }
 
-  // ---- 打开升级弹窗 ----
   function openUpgradeModal() {
     _openModal('modal-upgrade');
   }
 
   // =============================================================
-  //                     个人中心页初始化
+  //                       Profile Page
   // =============================================================
   function _initProfilePage() {
-    // 动态更新个人中心数据
     Auth.onChange(() => _renderProfile());
-    // 初次渲染
     _renderProfile();
   }
 
   function _renderProfile() {
-    // 用户名
     const el = document.getElementById('profile-username');
     if (el) el.textContent = Auth.getUsername();
 
-    // 会员状态
     const tierEl = document.getElementById('profile-tier');
     if (tierEl) {
       const tier = Auth.getTier();
@@ -500,56 +462,49 @@ const App = (() => {
         : 'px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-700';
     }
 
-    // 会员状态文字
     const tierTextEl = document.getElementById('profile-tier-text');
     if (tierTextEl) tierTextEl.textContent = Auth.getTierLabel();
 
-    // 升级按钮
     const upgradeBtn = document.getElementById('profile-upgrade-btn');
     if (upgradeBtn) {
       if (Auth.isMember()) {
-        upgradeBtn.textContent = '管理会员';
+        upgradeBtn.textContent = 'Manage Plan';
         upgradeBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
         upgradeBtn.classList.add('bg-green-600', 'hover:bg-green-700');
       } else {
-        upgradeBtn.textContent = '升级会员';
+        upgradeBtn.textContent = 'Upgrade';
         upgradeBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
         upgradeBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
       }
     }
 
-    // 到期时间
     const expEl = document.getElementById('profile-expire');
     if (expEl) expEl.textContent = Auth.getExpireDateFormatted();
 
-    // 剩余次数
     const quotaEl = document.getElementById('profile-quota');
     if (quotaEl) {
       const q = Auth.getRemainingQuota();
-      quotaEl.textContent = q === Infinity ? '无限' : q;
+      quotaEl.textContent = q === Infinity ? 'Unlimited' : q;
     }
 
-    // 总使用次数
     const totalEl = document.getElementById('profile-total-used');
     if (totalEl) totalEl.textContent = Auth.getTotalUsed();
 
-    // 注册时间
     const sinceEl = document.getElementById('profile-member-since');
     if (sinceEl) sinceEl.textContent = Auth.getMemberSince();
 
-    // 使用记录
     const recordsEl = document.getElementById('profile-records');
     if (recordsEl) {
       const records = Auth.getRecords();
       if (records.length === 0) {
-        recordsEl.innerHTML = '<p class="text-gray-400 text-center py-8">暂无使用记录</p>';
+        recordsEl.innerHTML = '<p class="text-gray-400 text-center py-8">No usage records yet</p>';
       } else {
         recordsEl.innerHTML = records.map(r => `
           <tr class="border-b border-gray-100">
             <td class="py-3 text-sm text-gray-500">${r.date}</td>
             <td class="py-3 text-sm text-gray-700">${_getTypeLabel(r.type)}</td>
             <td class="py-3 text-sm text-gray-700 max-w-xs truncate">${r.title}</td>
-            <td class="py-3 text-sm text-gray-500">${r.words.toLocaleString()} 字</td>
+            <td class="py-3 text-sm text-gray-500">${r.words.toLocaleString()} chars</td>
           </tr>
         `).join('');
       }
@@ -558,31 +513,29 @@ const App = (() => {
 
   function _getTypeLabel(type) {
     const map = {
-      summarize: '智能总结',
-      translate: '学术翻译',
-      keywords: '关键词提取',
-      deep_analysis: '深度拆解',
-      compare: '多文献对比',
-      citation: '引用转换',
+      summarize: 'Summary',
+      translate: 'Translation',
+      keywords: 'Keywords',
+      deep_analysis: 'Deep Analysis',
+      compare: 'Comparison',
+      citation: 'Citation',
     };
     return map[type] || type;
   }
 
-  // ---- 退出登录 ----
   function logout() {
-    if (confirm('确定要退出登录吗？')) {
+    if (confirm('Are you sure you want to log out?')) {
       Auth.logout();
       _updateGlobalUI();
       Router.navigate('home');
-      _showToast('已退出登录', 'info');
+      _showToast('Logged out.', 'info');
     }
   }
 
   // =============================================================
-  //                     帮助中心页初始化
+  //                       Help Page
   // =============================================================
   function _initHelpPage() {
-    // FAQ 折叠
     document.querySelectorAll('.faq-question').forEach(btn => {
       btn.addEventListener('click', function () {
         const answer = this.nextElementSibling;
@@ -593,9 +546,7 @@ const App = (() => {
     });
   }
 
-  // ---- Toast 消息 ----
   function _showToast(message, type) {
-    // 移除已有 toast
     const existing = document.querySelector('.app-toast');
     if (existing) existing.remove();
 
@@ -618,18 +569,12 @@ const App = (() => {
     }, 2500);
   }
 
-  // 公开 API（HTML onclick 调用）
   return {
-    init,
-    goToTools,
-    claimNewUserGift,
-    dismissNewUserGift,
-    openUpgradeModal,
-    openPaymentModal,
-    confirmPayment,
+    init, goToTools,
+    claimNewUserGift, dismissNewUserGift,
+    openUpgradeModal, openPaymentModal, confirmPayment,
     logout,
   };
 })();
 
-// ---- 启动应用 ----
 document.addEventListener('DOMContentLoaded', () => App.init());

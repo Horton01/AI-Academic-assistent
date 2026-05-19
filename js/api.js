@@ -1,262 +1,296 @@
 /**
  * ============================================================
- * AI 文献助手 — DeepSeek API 接口模块
- * 当前为 mock 实现，模拟完整请求/响应流程
- * 后续替换真实 DeepSeek 接口只需修改 callDeepSeek 函数
+ * AI Literature Assistant — DeepSeek API Interface
+ * Supports mock mode (local) and server mode (real backend).
  * ============================================================
  */
 
 const API = (() => {
-  // ---- Mock 响应数据池 ----
   const _mockResults = {
     summarize: {
-      free: `【文献核心观点】
-本文系统综述了深度学习在自然语言处理领域的最新进展，重点关注 Transformer 架构及其变体的应用。
+      free: `【Core Argument】
+This paper presents a systematic review of recent advances in deep learning for natural language processing, with a focus on Transformer architectures and their variants.
 
-【研究方法】
-作者采用系统性文献回顾方法，检索了 2018-2024 年间发表于 ACL、EMNLP、NAACL 等顶级会议的 200 余篇论文。
+【Methodology】
+The authors conducted a systematic literature review, searching 200+ papers from top-tier venues (ACL, EMNLP, NAACL) published between 2018–2024.
 
-【主要发现】
-1. 预训练语言模型（PLM）已成为 NLP 的主流范式
-2. 大语言模型（LLM）在少样本和零样本场景下表现优异
-3. 模型效率与性能的权衡仍是开放问题
+【Key Findings】
+1. Pre-trained language models (PLMs) have become the dominant NLP paradigm
+2. Large language models (LLMs) excel in few-shot and zero-shot scenarios
+3. The trade-off between model efficiency and performance remains an open challenge
 
-【结论与展望】
-未来研究方向包括：更高效的注意力机制、多模态融合、以及模型可解释性。`,
-      paid: `【文献核心观点】
-本文系统综述了深度学习在自然语言处理领域的最新进展，重点关注 Transformer 架构及其变体的应用。研究指出，从 BERT 到 GPT 系列的演进代表了 NLP 范式的根本转变。
+【Conclusions & Outlook】
+Future directions include: more efficient attention mechanisms, multimodal fusion, and model interpretability.`,
+      paid: `【Core Argument】
+This paper systematically reviews recent advances in deep learning for NLP, with emphasis on Transformer architectures and their variants. The evolution from BERT to GPT-series models represents a fundamental paradigm shift in the field.
 
-【研究方法与框架】
-- 研究设计：系统性文献回顾 (Systematic Literature Review)
-- 数据来源：ACL Anthology、IEEE Xplore、arXiv
-- 时间跨度：2018-2024
-- 纳入标准：被引 ≥ 10 次的同行评审论文
-- 最终样本：217 篇论文
+【Methodology & Framework】
+- Study Design: Systematic Literature Review (SLR)
+- Data Sources: ACL Anthology, IEEE Xplore, arXiv
+- Time Span: 2018–2024
+- Inclusion Criteria: Peer-reviewed papers with ≥ 10 citations
+- Final Sample: 217 papers
 
-【创新点识别】
-1. 首次将 LLM 涌现能力纳入综述框架
-2. 提出了"能力-效率-可控性"三维评估模型
-3. 识别了当前研究的 5 个方法论缺口
+【Innovation Identification】
+1. First to incorporate LLM emergent capabilities into a review framework
+2. Proposed a "Capability–Efficiency–Controllability" three-dimensional evaluation model
+3. Identified 5 methodological gaps in current research
 
-【批判性分析】
-- 优势：覆盖面广，分类体系清晰
-- 局限：未充分讨论低资源语言的挑战
-- 偏差风险：英文文献为主，存在语言偏差
+【Critical Analysis】
+- Strengths: Broad coverage, clear classification taxonomy
+- Limitations: Insufficient discussion of low-resource language challenges
+- Risk of Bias: English-language dominance may introduce language bias
 
-【对实践者的启示】
-- 选择模型时需权衡任务需求与计算预算
-- 建议优先考虑开源可复现的模型
-- 关注模型部署的实际工程挑战`,
+【Implications for Practitioners】
+- Model selection should balance task requirements against compute budget
+- Prioritize open-source, reproducible models when possible
+- Consider real-world deployment engineering challenges`,
     },
 
     translate: {
-      free: `【基础翻译结果】
+      free: `【Basic Translation】
 
-原文核心段落翻译：
-近年来，深度学习技术在自然语言处理领域取得了突破性进展。特别是基于 Transformer 架构的预训练语言模型，如 BERT 和 GPT 系列，在各种 NLP 任务中均展现出卓越的性能。
+Original paragraph:
+Recent years have witnessed breakthrough progress in deep learning technologies applied to natural language processing. In particular, pre-trained language models based on the Transformer architecture, such as BERT and GPT series, have demonstrated outstanding performance across a wide range of NLP tasks.
 
-In recent years, deep learning technologies have achieved breakthrough progress in the field of natural language processing. In particular, pre-trained language models based on the Transformer architecture, such as BERT and GPT series, have demonstrated outstanding performance across various NLP tasks.`,
-      paid: `【学术级翻译结果】
+Translated (Chinese):
+近年来，深度学习技术在自然语言处理领域取得了突破性进展。特别是基于 Transformer 架构的预训练语言模型，如 BERT 和 GPT 系列，在各种 NLP 任务中展现了卓越的性能。`,
+      paid: `【Academic-Grade Translation】
 
-原文核心段落翻译（含术语对照与翻译说明）：
+Source text:
+Recent years have witnessed breakthrough progress in deep learning technologies applied to natural language processing. In particular, pre-trained language models based on the Transformer architecture, such as BERT and GPT series, have demonstrated outstanding performance across a wide range of NLP tasks.
 
-近年来，深度学习技术在自然语言处理领域取得了突破性进展。特别是基于 Transformer 架构的预训练语言模型，如 BERT 和 GPT 系列，在各种 NLP 任务中均展现出卓越的性能。
+Target (Chinese — Simplified):
+近年来，深度学习技术在自然语言处理领域取得了突破性进展。特别是基于 Transformer 架构的预训练语言模型（如 BERT 和 GPT 系列），在各类 NLP 任务中均展现出卓越性能。
 
-In recent years, deep learning technologies have achieved breakthrough progress in the field of natural language processing. In particular, pre-trained language models based on the Transformer architecture, such as BERT and GPT series, have demonstrated outstanding performance across various NLP tasks.
+【Key Terminology Mapping】
+- Deep learning → 深度学习
+- Natural Language Processing (NLP) → 自然语言处理
+- Transformer architecture → Transformer 架构
+- Pre-trained language models → 预训练语言模型 (PLMs)
+- Breakthrough progress → 突破性进展
 
-【关键术语对照】
-- 深度学习 → Deep Learning
-- 自然语言处理 → Natural Language Processing (NLP)
-- Transformer 架构 → Transformer Architecture
-- 预训练语言模型 → Pre-trained Language Models (PLMs)
-- 突破性进展 → Breakthrough Progress
-
-【翻译策略说明】
-- 学术术语保持国际通用缩写（如 NLP）
-- 中文被动语态转换为英文主动语态
-- 保留了"突破性进展"的原文修辞力度
-- 专有名词（BERT/GPT）保持原样`,
+【Translation Notes】
+- Academic abbreviations (NLP, PLM) preserved with Chinese gloss on first occurrence
+- Passive voice in English converted to active voice in Chinese where idiomatic
+- Technical terms consistently mapped to established Chinese academic conventions
+- Proper nouns (BERT, GPT) left untranslated per academic standard`,
     },
 
     keywords: {
-      free: `【关键词提取】
+      free: `【Extracted Keywords】
+1. Deep Learning
+2. Natural Language Processing (NLP)
+3. Transformer Architecture
+4. Pre-trained Language Model
+5. Large Language Model (LLM)
 
-1. 深度学习 (Deep Learning)
-2. 自然语言处理 (Natural Language Processing)
-3. Transformer 架构 (Transformer Architecture)
-4. 预训练语言模型 (Pre-trained Language Model)
-5. 大语言模型 (Large Language Model)
+【Generated Abstract】
+This paper reviews recent advances in deep learning for NLP, analyzing the application of Transformer architectures and their variants across NLP tasks. The review finds that pre-trained language models have become the dominant technical paradigm in contemporary NLP research.`,
+      paid: `【Keywords — Ranked by Relevance】
 
-【摘要生成】
-本文综述了深度学习在 NLP 领域的最新进展，重点分析了 Transformer 架构及其变体在各项 NLP 任务中的应用效果。研究发现，预训练语言模型已成为当前 NLP 的主流技术范式。`,
-      paid: `【关键词提取 - 按重要度排序】
+Core Keywords (★):
+★ 1. Transformer Architecture — TF-IDF: 0.89
+★ 2. Pre-trained Language Models — TF-IDF: 0.85
+★ 3. Self-Attention Mechanism — TF-IDF: 0.78
 
-核心关键词 (★)：
-★ 1. Transformer 架构 (Transformer Architecture) — TF-IDF: 0.89
-★ 2. 预训练语言模型 (Pre-trained Language Models) — TF-IDF: 0.85
-★ 3. 自注意力机制 (Self-Attention Mechanism) — TF-IDF: 0.78
+Secondary Keywords:
+4. Natural Language Processing — TF-IDF: 0.72
+5. Large Language Models — TF-IDF: 0.68
+6. Transfer Learning — TF-IDF: 0.63
 
-次要关键词：
-4. 自然语言处理 (Natural Language Processing) — TF-IDF: 0.72
-5. 大语言模型 (Large Language Models) — TF-IDF: 0.68
-6. 迁移学习 (Transfer Learning) — TF-IDF: 0.63
-
-【结构化摘要】
-- 背景：NLP 领域正经历从传统方法向深度学习范式的转变
-- 目的：系统梳理 Transformer 架构在各 NLP 子任务中的应用
-- 方法：系统性文献回顾，纳入 217 篇高质量论文
-- 结论：预训练 + 微调已成为 NLP 的标准范式
-- 意义：为后续研究者提供方法选择参考框架`,
+【Structured Abstract】
+- Background: NLP is transitioning from traditional methods to deep learning paradigms
+- Objective: Systematically map Transformer applications across NLP sub-tasks
+- Method: Systematic literature review; 217 high-quality papers included
+- Findings: Pre-training + fine-tuning is now the standard NLP workflow
+- Significance: Provides a methodological reference framework for future research`,
     },
 
     deep_analysis: {
-      free: null, // 免费用户不可用
-      paid: `【多层级深度拆解报告】
+      free: null,
+      paid: `【Multi-Layer Deep Analysis Report】
 
-📋 第一层：结构化概览
-- 标题：Deep Learning Approaches in Natural Language Processing: A Survey
-- 作者：Zhang et al. (2024)
-- 类型：综述论文 (Survey Paper)
-- 章节结构：7 章（引言→背景→方法→应用→挑战→趋势→结论）
+📋 Layer 1 — Structural Overview
+- Title: Deep Learning Approaches in Natural Language Processing: A Survey
+- Authors: Zhang et al. (2024)
+- Type: Survey Paper
+- Structure: 7 chapters (Introduction → Background → Methods → Applications → Challenges → Trends → Conclusion)
 
-🔍 第二层：方法论评估
-- 研究范式：系统性文献回顾 (SLR)
-- 检索策略：关键词检索 + 滚雪球法
-- 质量评估：使用 AMSTAR 2 评估工具
-- 偏倚控制：双人独立筛选，Kappa = 0.85
-- 方法论强度：★★★☆☆ (3/5)
-  · 优势：检索策略系统，纳入标准明确
-  · 不足：未注册 PROSPERO，未做灰色文献检索
+🔍 Layer 2 — Methodology Assessment
+- Research Paradigm: Systematic Literature Review (SLR)
+- Search Strategy: Keyword search + snowballing
+- Quality Assessment: AMSTAR 2 tool
+- Bias Control: Dual independent screening, Kappa = 0.85
+- Methodological Rigor: ★★★☆☆ (3/5)
+  · Strengths: Systematic search strategy, clear inclusion criteria
+  · Weaknesses: No PROSPERO registration, no grey literature search
 
-💡 第三层：创新点识别
-1. 提出了基于能力层级的模型分类框架（基础→进阶→涌现）
-2. 识别了模型规模与性能的非线性关系
-3. 首次在综述中引入能效比 (performance-per-watt) 评估维度
+💡 Layer 3 — Innovation Identification
+1. Proposed a capability-level model classification framework (Basic → Advanced → Emergent)
+2. Identified non-linear relationship between model scale and performance
+3. First to introduce performance-per-watt as an evaluation dimension in a survey context
 
-📊 第四层：证据质量评估
-- 纳入研究设计：RCT 12%，准实验 35%，案例研究 53%
-- 整体证据等级：Level B (中等偏上)
-- 异质性：I² = 78%（高异质性，部分归因于任务类型差异）
+📊 Layer 4 — Evidence Quality Assessment
+- Study designs: RCT 12%, Quasi-experimental 35%, Case studies 53%
+- Overall evidence level: Grade B (Moderate-High)
+- Heterogeneity: I² = 78% (high; partly attributable to task-type variation)
 
-🎯 第五层：实践建议
-- 对研究者：优先考虑可复现的开源模型
-- 对工程师：BERT-base 在多数场景下性价比最优
-- 对管理者：关注模型部署的总拥有成本 (TCO)`,
+🎯 Layer 5 — Practical Recommendations
+- For researchers: Prioritize reproducible open-source models
+- For engineers: BERT-base offers best cost-performance ratio in most scenarios
+- For managers: Consider Total Cost of Ownership (TCO) for model deployment`,
     },
 
     compare: {
       free: null,
-      paid: `【多文献对比分析报告】
+      paid: `【Multi-Document Comparison Report】
 
-对比文献（3 篇）：
+Documents Compared (3):
 A: Zhang et al. (2024) — Deep Learning in NLP: A Survey
 B: Liu et al. (2023) — Transformer Variants: A Comprehensive Review
 C: Wang et al. (2024) — Efficient NLP Models for Production
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-📊 对比维度矩阵：
+📊 Comparison Matrix:
 
-┌──────────────────┬──────────────────┬──────────────────┬──────────────────┐
-│     维度          │   A (Zhang 24)    │   B (Liu 23)      │   C (Wang 24)     │
-├──────────────────┼──────────────────┼──────────────────┼──────────────────┤
-│ 研究类型          │ 综述              │ 综述              │ 实证研究           │
-│ 时间跨度          │ 2018-2024         │ 2017-2023         │ 2023-2024         │
-│ 纳入文献数        │ 217               │ 156               │ N/A (实验)         │
-│ 方法论严谨度      │ ★★★☆☆            │ ★★★★☆             │ ★★★★☆            │
-│ 创新性            │ 中等              │ 高                 │ 高                │
-│ 实用性            │ 高                │ 中等              │ 非常高             │
-│ 主要贡献          │ 分类框架          │ 架构对比           │ 部署优化           │
-└──────────────────┴──────────────────┴──────────────────┴──────────────────┘
+┌──────────────────────┬──────────────────┬──────────────────┬──────────────────┐
+│      Dimension       │   A (Zhang 24)   │   B (Liu 23)      │   C (Wang 24)     │
+├──────────────────────┼──────────────────┼──────────────────┼──────────────────┤
+│ Study Type           │ Survey           │ Survey           │ Empirical         │
+│ Time Span            │ 2018–2024        │ 2017–2023        │ 2023–2024         │
+│ Papers Included      │ 217              │ 156              │ N/A (experiments) │
+│ Methodological Rigor │ ★★★☆☆           │ ★★★★☆            │ ★★★★☆            │
+│ Innovation           │ Moderate         │ High             │ High              │
+│ Practical Utility    │ High             │ Moderate         │ Very High         │
+│ Key Contribution     │ Taxonomy         │ Architecture comp│ Deployment opt    │
+└──────────────────────┴──────────────────┴──────────────────┴──────────────────┘
 
-🔍 共识与分歧：
-【共识点】
-- 三篇均认可 Transformer 作为基础架构的优势
-- 都指出注意力机制的计算复杂度是核心瓶颈
-- 一致看好稀疏注意力与模型压缩方向
+🔍 Consensus & Divergence:
+【Consensus】
+- All three endorse Transformer as the foundational architecture
+- All identify attention mechanism complexity as the core bottleneck
+- All favor sparse attention and model compression directions
 
-【分歧点】
-- A 认为模型规模仍是提升性能的关键，C 则认为边际收益递减
-- B 主张架构创新，A 认为数据质量比架构更重要
-- C 强调部署效率，与 A/B 的学术视角形成互补
+【Divergence】
+- A argues model scale remains key to performance; C argues diminishing returns
+- B advocates architectural innovation; A argues data quality outweighs architecture
+- C focuses on deployment efficiency, complementing the academic lens of A and B
 
-📌 研究空白：
-1. 缺乏低资源语言的大规模基准评测
-2. 模型效率与公平性的交叉研究不足
-3. 工业级部署的系统性经验研究稀缺`,
+📌 Research Gaps Identified:
+1. Lack of large-scale benchmarks for low-resource languages
+2. Insufficient cross-sectional research on model efficiency and fairness
+3. Scarcity of systematic empirical studies on industrial-grade deployment`,
     },
 
     citation: {
       free: null,
-      paid: `【引用格式转换结果】
+      paid: `【Citation Format Conversion】
 
-输入格式：原始文献信息
-转换数量：1 条
+Input: Raw bibliographic metadata
+Conversions: 1 entry
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 【APA 7th】
-Zhang, Y., Li, X., & Chen, W. (2024). Deep learning approaches in natural language processing: A survey. *Journal of Artificial Intelligence Research*, 79, 1-45. https://doi.org/10.xxxx/jaire.2024.001
+Zhang, Y., Li, X., & Chen, W. (2024). Deep learning approaches in natural language processing: A survey. *Journal of Artificial Intelligence Research*, *79*, 1–45. https://doi.org/10.xxxx/jaire.2024.001
 
 【MLA 9th】
-Zhang, Yifan, et al. "Deep Learning Approaches in Natural Language Processing: A Survey." *Journal of Artificial Intelligence Research*, vol. 79, 2024, pp. 1-45.
+Zhang, Yifan, et al. "Deep Learning Approaches in Natural Language Processing: A Survey." *Journal of Artificial Intelligence Research*, vol. 79, 2024, pp. 1–45.
 
 【Chicago (Author-Date)】
-Zhang, Yifan, Xinyi Li, and Wei Chen. 2024. "Deep Learning Approaches in Natural Language Processing: A Survey." *Journal of Artificial Intelligence Research* 79: 1-45.
+Zhang, Yifan, Xinyi Li, and Wei Chen. 2024. "Deep Learning Approaches in Natural Language Processing: A Survey." *Journal of Artificial Intelligence Research* 79: 1–45.
+
+【Harvard】
+Zhang, Y., Li, X. and Chen, W. (2024) 'Deep learning approaches in natural language processing: a survey', *Journal of Artificial Intelligence Research*, 79, pp. 1–45.
 
 【GB/T 7714-2015】
-ZHANG Y, LI X, CHEN W. Deep learning approaches in natural language processing: a survey[J]. Journal of Artificial Intelligence Research, 2024, 79: 1-45.
-
-【哈佛格式】
-Zhang, Y., Li, X. and Chen, W. (2024) 'Deep learning approaches in natural language processing: a survey', Journal of Artificial Intelligence Research, 79, pp. 1-45.`,
+ZHANG Y, LI X, CHEN W. Deep learning approaches in natural language processing: a survey[J]. Journal of Artificial Intelligence Research, 2024, 79: 1-45.`,
     },
   };
 
-  // ---- 模拟网络延迟 ----
-  function _delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+  function _delay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+
+  function _getApiBase() {
+    return (APP_CONFIG.api && APP_CONFIG.api.baseUrl) || '';
   }
 
-  // ---- 核心调用函数 ----
-  /**
-   * 调用 DeepSeek API（当前为 mock）
-   * @param {Object} params
-   * @param {string} params.text - 输入文本
-   * @param {string} params.functionType - 功能类型
-   * @param {string} params.userTier - 用户等级
-   * @param {File|null} params.file - 上传文件（mock 忽略）
-   * @returns {Promise<Object>} API 响应
-   */
   async function callDeepSeek({ text, functionType, userTier, file }) {
-    // ---- 参数校验 ----
     if (!text && !file) {
-      return { success: false, error: '请输入文本或上传文件' };
+      return { success: false, error: 'Please enter text or upload a file' };
     }
     if (!functionType) {
-      return { success: false, error: '请选择功能类型' };
+      return { success: false, error: 'Please select a function type' };
     }
 
     const fn = APP_CONFIG.functions.find(f => f.id === functionType);
     if (!fn) {
-      return { success: false, error: '无效的功能类型' };
+      return { success: false, error: 'Invalid function type' };
     }
 
-    // 权限检查
     if (fn.tier === 'paid' && userTier === 'free') {
       return {
         success: false,
         error: 'permission_denied',
-        message: '该功能为会员专属，请升级后使用',
+        message: 'This feature is members-only. Please upgrade to continue.',
         requireUpgrade: true,
       };
     }
 
-    // ---- Mock 模式 ----
+    // Try server mode if mock is disabled and we have a token
+    if (!APP_CONFIG.api.mockEnabled && Auth.getToken()) {
+      try {
+        const base = _getApiBase();
+        const res = await fetch(`${base}/api/ai/process`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${Auth.getToken()}`,
+          },
+          body: JSON.stringify({ text: text || 'Uploaded file content', functionType }),
+        });
+
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success) {
+            // Update local quota cache from server response
+            if (json.data.remaining !== undefined) {
+              Auth.updateQuotaFromServer(json.data.remaining);
+            }
+            return { success: true, data: json.data };
+          }
+          return { success: false, error: json.error || 'Processing failed' };
+        }
+
+        if (res.status === 403) {
+          const err = await res.json();
+          if (err.requireUpgrade) {
+            return { success: false, error: 'permission_denied', message: err.message, requireUpgrade: true };
+          }
+          return { success: false, error: err.message || 'Access denied' };
+        }
+
+        if (res.status === 429) {
+          const err = await res.json();
+          return { success: false, error: 'quota_exhausted', message: err.message, quotaExhausted: true, used: err.used, limit: err.limit };
+        }
+
+        return { success: false, error: 'Server error. Please try again.' };
+      } catch (e) {
+        // Fall through to mock if available
+        if (!APP_CONFIG.api.mockEnabled) {
+          return { success: false, error: 'Unable to connect to server. Please try again.' };
+        }
+      }
+    }
+
+    // Mock mode fallback
     if (APP_CONFIG.api.mockEnabled) {
       await _delay(APP_CONFIG.api.mockDelay);
 
       const pool = _mockResults[functionType];
       if (!pool) {
-        return { success: false, error: 'Mock 数据未配置' };
+        return { success: false, error: 'Mock data not configured' };
       }
 
       const resultText = userTier === 'free' ? pool.free : pool.paid;
@@ -264,7 +298,7 @@ Zhang, Y., Li, X. and Chen, W. (2024) 'Deep learning approaches in natural langu
         return {
           success: false,
           error: 'permission_denied',
-          message: '该功能为会员专属，请升级后使用',
+          message: 'This feature is members-only. Please upgrade to continue.',
           requireUpgrade: true,
         };
       }
@@ -284,42 +318,8 @@ Zhang, Y., Li, X. and Chen, W. (2024) 'Deep learning approaches in natural langu
       };
     }
 
-    // ---- 真实 API 模式（后续接入） ----
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), APP_CONFIG.api.timeout);
-
-      const response = await fetch(APP_CONFIG.api.endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('ai_lit_token') || ''}`,
-        },
-        body: JSON.stringify({
-          text,
-          file: file ? file.name : null,
-          function_type: functionType,
-          user_tier: userTier,
-        }),
-        signal: controller.signal,
-      });
-
-      clearTimeout(timeoutId);
-
-      if (!response.ok) {
-        throw new Error(`API Error: ${response.status}`);
-      }
-
-      const data = await response.json();
-      return { success: true, data };
-    } catch (err) {
-      return {
-        success: false,
-        error: err.name === 'AbortError' ? '请求超时，请稍后重试' : err.message,
-      };
-    }
+    return { success: false, error: 'API is not available' };
   }
 
-  // 公开 API
   return { callDeepSeek };
 })();

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="AI 文献助手 — 跨境学术与职场文献的轻量 AI 处理工具。外文文献拆解、中英学术翻译、文献总结、多文献对比、引用格式转换。">
-  <meta name="keywords" content="AI文献处理,学术翻译,文献总结,引用格式转换,跨境学术,DeepSeek">
-  <title>AI 文献助手 — 跨境学术文献 AI 处理工具</title>
+  <meta name="description" content="AI Literature Assistant — A lightweight AI-powered tool for processing cross-border academic and professional documents. Summarization, translation, comparison, citation formatting.">
+  <meta name="keywords" content="AI literature processing, academic translation, paper summarization, citation formatting, cross-border academic, DeepSeek">
+  <title>AI Literature Assistant — Cross-Border Academic Document AI Tool</title>
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -25,137 +25,139 @@
     }
   </script>
 
-  <!-- 自定义样式 -->
+  <!-- Custom Styles -->
   <link rel="stylesheet" href="css/tailwind.css">
 
-  <!-- Favicon (纯 CSS 生成，无需图片文件) -->
+  <!-- Logo (pure CSS, no image file needed) -->
   <style>
     .logo-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px;
       background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      border-radius: 8px;
-      color: white;
-      font-weight: 700;
-      font-size: 16px;
-      letter-spacing: -0.5px;
+      border-radius: 8px; color: white; font-weight: 700;
+      font-size: 16px; letter-spacing: -0.5px;
     }
   </style>
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-800">
 
 <!-- ============================================================ -->
-<!--  顶部导航栏（固定）                                           -->
+<!--  Fixed Navigation Bar                                         -->
 <!-- ============================================================ -->
 <nav class="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
 
-      <!-- 左侧：Logo + 品牌名 -->
+      <!-- Left: Logo + Brand -->
       <a href="#home" class="flex items-center gap-2.5 no-underline">
         <span class="logo-icon">AI</span>
-        <span class="text-lg font-bold text-slate-900 tracking-tight">AI 文献助手</span>
+        <span class="text-lg font-bold text-slate-900 tracking-tight">AI Lit Assistant</span>
       </a>
 
-      <!-- 中间：导航链接（桌面端） -->
+      <!-- Center: Nav Links (Desktop) -->
       <div class="hidden md:flex items-center gap-1">
-        <a href="#home" data-nav="home" class="nav-active px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 rounded-lg transition-colors">首页</a>
-        <a href="#tools" data-nav="tools" class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 rounded-lg transition-colors">工具中心</a>
-        <a href="#membership" data-nav="membership" id="nav-membership" class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 rounded-lg transition-colors">会员中心</a>
-        <a href="#profile" data-nav="profile" class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 rounded-lg transition-colors">个人中心</a>
-        <a href="#help" data-nav="help" class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 rounded-lg transition-colors">帮助中心</a>
+        <a href="#home" data-nav="home" class="nav-active px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 rounded-lg transition-colors">Home</a>
+        <a href="#tools" data-nav="tools" class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 rounded-lg transition-colors">Tools</a>
+        <a href="#membership" data-nav="membership" id="nav-membership" class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 rounded-lg transition-colors">Membership</a>
+        <a href="#profile" data-nav="profile" class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 rounded-lg transition-colors">Account</a>
+        <a href="#help" data-nav="help" class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 rounded-lg transition-colors">Help</a>
       </div>
 
-      <!-- 右侧：登录 / 开通会员 -->
+      <!-- Right: Login / Upgrade -->
       <div class="hidden md:flex items-center gap-3">
-        <button class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">登录 / 注册</button>
+        <button class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Log In / Sign Up</button>
         <button id="nav-member-btn" onclick="document.location.hash='membership'" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-sm">
-          开通会员
+          Upgrade
         </button>
       </div>
 
-      <!-- 移动端菜单按钮 -->
+      <!-- Mobile Menu Toggle -->
       <button id="mobile-menu-toggle" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-gray-100">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
     </div>
 
-    <!-- 移动端菜单 -->
+    <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden md:hidden pb-4 border-t border-gray-100 mt-2 pt-2">
-      <a href="#home" class="block px-3 py-2 text-sm font-medium text-slate-600 rounded-lg hover:bg-gray-50">首页</a>
-      <a href="#tools" class="block px-3 py-2 text-sm font-medium text-slate-600 rounded-lg hover:bg-gray-50">工具中心</a>
-      <a href="#membership" class="block px-3 py-2 text-sm font-medium text-slate-600 rounded-lg hover:bg-gray-50">会员中心</a>
-      <a href="#profile" class="block px-3 py-2 text-sm font-medium text-slate-600 rounded-lg hover:bg-gray-50">个人中心</a>
-      <a href="#help" class="block px-3 py-2 text-sm font-medium text-slate-600 rounded-lg hover:bg-gray-50">帮助中心</a>
+      <a href="#home" class="block px-3 py-2 text-sm font-medium text-slate-600 rounded-lg hover:bg-gray-50">Home</a>
+      <a href="#tools" class="block px-3 py-2 text-sm font-medium text-slate-600 rounded-lg hover:bg-gray-50">Tools</a>
+      <a href="#membership" class="block px-3 py-2 text-sm font-medium text-slate-600 rounded-lg hover:bg-gray-50">Membership</a>
+      <a href="#profile" class="block px-3 py-2 text-sm font-medium text-slate-600 rounded-lg hover:bg-gray-50">Account</a>
+      <a href="#help" class="block px-3 py-2 text-sm font-medium text-slate-600 rounded-lg hover:bg-gray-50">Help</a>
       <div class="flex gap-2 mt-3 px-3">
-        <button class="flex-1 px-4 py-2 text-sm font-medium text-slate-600 border border-gray-300 rounded-lg">登录</button>
-        <button id="nav-member-btn-mobile" onclick="document.location.hash='membership'" class="flex-1 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg">开通会员</button>
+        <button class="flex-1 px-4 py-2 text-sm font-medium text-slate-600 border border-gray-300 rounded-lg">Log In</button>
+        <button id="nav-member-btn-mobile" onclick="document.location.hash='membership'" class="flex-1 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg">Upgrade</button>
       </div>
     </div>
   </div>
 </nav>
 
-<!-- 导航占位 -->
+<!-- Google Translate Widget -->
+<div id="google-translate-bar" class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg">
+  <div class="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between">
+    <span class="text-xs text-slate-500">🌐 Translate</span>
+    <div id="google_translate_element"></div>
+  </div>
+</div>
+
+<!-- Nav Spacer -->
 <div class="h-16"></div>
 
 <!-- ============================================================ -->
-<!--  页面容器                                                     -->
+<!--  Pages                                                        -->
 <!-- ============================================================ -->
 
 <!-- ============================================================ -->
-<!--  首页（落地页）                                                -->
+<!--  Home Page                                                    -->
 <!-- ============================================================ -->
 <section id="page-home" class="page-section">
 
-  <!-- 首屏 Hero -->
+  <!-- Hero -->
   <div class="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 text-center">
       <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
-        跨境学术文献的<br class="md:hidden"><span class="text-blue-400">AI 智能处理</span>工具
+        <span class="text-blue-400">AI-Powered</span> Literature<br class="md:hidden"> Processing Tool
       </h1>
       <p class="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto mb-4 leading-relaxed">
-        面向留学生、科研入门者与职场研发人士
+        For international students, early-career researchers &amp; R&amp;D professionals
       </p>
       <p class="text-base text-slate-400 max-w-xl mx-auto mb-10 leading-relaxed">
-        外文文献拆解 · 中英学术翻译 · 智能总结 · 多文献对比 · 引用格式转换<br>
-        轻量、免费基础功能、无广告、界面干净
+        Smart Summarization · Academic Translation · Keyword Extraction · Deep Analysis · Document Comparison · Citation Formatting<br>
+        Lightweight · Free core features · No ads · Clean interface
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a href="#tools" class="inline-flex items-center justify-center px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors shadow-lg shadow-blue-600/25 text-lg">
-          免费开始使用
+          Try It Free
           <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
         </a>
         <a href="#membership" class="inline-flex items-center justify-center px-8 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition-colors border border-white/20 text-lg">
-          了解会员权益
+          View Plans
         </a>
       </div>
-      <p class="mt-6 text-sm text-slate-500">无需注册 · 每日 3 次免费 · 会员无限次</p>
+      <p class="mt-6 text-sm text-slate-500">No sign-up required · 3 free uses daily · Unlimited with membership</p>
     </div>
   </div>
 
-  <!-- 活动 Banner（商业化：可隐藏） -->
+  <!-- Promo Banner (commercial: toggleable) -->
   <div id="promo-banner" class="hidden bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
     <a href="#membership" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between no-underline text-white">
-      <span class="text-sm md:text-base font-medium">🎓 留学申请季 · 年卡限时 8 折 · 助力学术之路</span>
-      <span class="text-sm font-semibold shrink-0 ml-4 hover:underline whitespace-nowrap">立即查看 →</span>
+      <span class="text-sm md:text-base font-medium">🎓 Academic Season · 20% off yearly plan · Accelerate your research</span>
+      <span class="text-sm font-semibold shrink-0 ml-4 hover:underline whitespace-nowrap">Learn More →</span>
     </a>
   </div>
 
-  <!-- 功能卡片区 -->
+  <!-- Feature Cards -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
     <div class="text-center mb-12">
-      <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">六大核心功能</h2>
-      <p class="text-slate-500 max-w-lg mx-auto">轻量级 AI 工具矩阵，覆盖文献处理全流程</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Six Core Capabilities</h2>
+      <p class="text-slate-500 max-w-lg mx-auto">A lightweight AI toolkit covering the full literature workflow</p>
     </div>
     <div id="feature-cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- JS 动态渲染 -->
+      <!-- JS rendered -->
     </div>
   </div>
 
-  <!-- 私域引流区（商业化：可隐藏） -->
+  <!-- Community Section (commercial: toggleable) -->
   <div id="private-domain-section" class="hidden bg-gray-50 border-t border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
@@ -163,55 +165,52 @@
           <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
             <span class="text-3xl">💬</span>
           </div>
-          <h3 class="font-semibold text-slate-900 mb-2">加入学术交流群</h3>
-          <p class="text-sm text-slate-500 mb-4">与留学生同行交流文献处理技巧<br>获取最新学术工具资讯</p>
-          <button class="px-6 py-2.5 bg-green-600 text-white text-sm font-medium rounded-xl hover:bg-green-700 transition-colors">扫码入群</button>
+          <h3 class="font-semibold text-slate-900 mb-2">Join Academic Community</h3>
+          <p class="text-sm text-slate-500 mb-4">Connect with fellow researchers<br>Get the latest academic tool updates</p>
+          <button class="px-6 py-2.5 bg-green-600 text-white text-sm font-medium rounded-xl hover:bg-green-700 transition-colors">Join Group</button>
         </div>
         <div class="bg-white rounded-2xl p-8 text-center shadow-sm border border-gray-100">
           <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
             <span class="text-3xl">📚</span>
           </div>
-          <h3 class="font-semibold text-slate-900 mb-2">领取学术资料包</h3>
-          <p class="text-sm text-slate-500 mb-4">添加小助手微信<br>免费获取论文写作模板与指南</p>
-          <button class="px-6 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-xl hover:bg-blue-700 transition-colors">添加微信</button>
+          <h3 class="font-semibold text-slate-900 mb-2">Get Academic Resource Pack</h3>
+          <p class="text-sm text-slate-500 mb-4">Add our assistant on WeChat<br>Free thesis writing templates &amp; guides</p>
+          <button class="px-6 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-xl hover:bg-blue-700 transition-colors">Add WeChat</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 底部 -->
+  <!-- Footer -->
   <footer class="bg-slate-900 text-slate-400 border-t border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div class="flex flex-col md:flex-row items-center justify-between gap-6">
         <div class="flex items-center gap-2">
           <span class="logo-icon" style="width:28px;height:28px;font-size:13px;">AI</span>
-          <span class="text-sm font-semibold text-slate-300">AI 文献助手</span>
+          <span class="text-sm font-semibold text-slate-300">AI Lit Assistant</span>
         </div>
         <div class="flex flex-wrap justify-center gap-6 text-sm">
-          <a href="#help" class="hover:text-white transition-colors" onclick="switchHelpTab('agreement')">用户协议</a>
-          <a href="#help" class="hover:text-white transition-colors" onclick="switchHelpTab('privacy')">隐私政策</a>
-          <a href="#help" class="hover:text-white transition-colors" onclick="switchHelpTab('payment-rules')">付费说明</a>
-          <a href="#help" class="hover:text-white transition-colors">联系我们</a>
-          <a href="#help" class="hover:text-white transition-colors">社群入口</a>
+          <a href="#help" class="hover:text-white transition-colors" onclick="switchHelpTab('agreement')">Terms of Service</a>
+          <a href="#help" class="hover:text-white transition-colors" onclick="switchHelpTab('privacy')">Privacy Policy</a>
+          <a href="#help" class="hover:text-white transition-colors" onclick="switchHelpTab('payment-rules')">Payment Terms</a>
+          <a href="#help" class="hover:text-white transition-colors">Contact Us</a>
+          <a href="#help" class="hover:text-white transition-colors">Community</a>
         </div>
-        <p class="text-xs text-slate-500">&copy; 2025 AI 文献助手 · 跨境学术轻工具</p>
+        <p class="text-xs text-slate-500">&copy; 2025 AI Lit Assistant · Cross-Border Academic Tool</p>
       </div>
     </div>
   </footer>
 </section>
 
 <!-- ============================================================ -->
-<!--  工具中心页                                                   -->
+<!--  Tools Page                                                   -->
 <!-- ============================================================ -->
 <section id="page-tools" class="page-section hidden">
 
-  <!-- 页面标题 -->
   <div class="bg-white border-b border-gray-200">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 class="text-2xl md:text-3xl font-bold text-slate-900">工具中心</h1>
-      <p class="text-slate-500 mt-1">输入文献内容或上传文件，选择处理功能，AI 为您高效处理</p>
-
-      <!-- 额度显示（商业化：可隐藏） -->
+      <h1 class="text-2xl md:text-3xl font-bold text-slate-900">Tools Center</h1>
+      <p class="text-slate-500 mt-1">Paste your text or upload a file, choose a function, and let AI handle the rest</p>
       <div id="quota-display" class="mt-4 text-sm"></div>
     </div>
   </div>
@@ -219,91 +218,85 @@
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-      <!-- 左侧：输入区 -->
+      <!-- Left: Input Area -->
       <div class="lg:col-span-2 space-y-6">
-        <!-- 文本输入 -->
         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-          <label class="block text-sm font-semibold text-slate-700 mb-3">输入文献内容</label>
+          <label class="block text-sm font-semibold text-slate-700 mb-3">Enter Literature Content</label>
           <textarea id="tool-text-input" rows="10"
             class="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 resize-y focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-            placeholder="在此粘贴文献文本内容（支持中英文）...&#10;&#10;例如：粘贴论文摘要、引言段落、或全文内容..."></textarea>
+            placeholder="Paste your literature text here (multiple languages supported)...&#10;&#10;Example: Paste an abstract, introduction paragraph, or full-text content..."></textarea>
 
-          <!-- 文件上传 -->
+          <!-- File Upload -->
           <div id="file-drop-zone" class="file-drop-zone mt-4 border-2 border-dashed border-gray-300 rounded-xl p-6 text-center cursor-pointer hover:border-blue-400 transition-colors">
             <input type="file" id="file-input" class="hidden" accept=".pdf,.doc,.docx,.txt">
             <span class="text-3xl">📁</span>
-            <p class="text-sm text-slate-500 mt-2">点击上传或拖拽文件到此处</p>
-            <p class="text-xs text-slate-400 mt-1">支持 PDF / Word / TXT（UI 展示，实际处理待后端接入）</p>
+            <p class="text-sm text-slate-500 mt-2">Click to upload or drag and drop files here</p>
+            <p class="text-xs text-slate-400 mt-1">Supports PDF / Word / TXT (UI demo — backend integration pending)</p>
             <p id="file-name" class="hidden mt-2 text-sm font-medium text-blue-600"></p>
           </div>
         </div>
 
-        <!-- 提交按钮 -->
         <div class="flex items-center gap-4">
           <button id="btn-submit-tool"
             class="flex-1 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors shadow-sm text-base">
-            开始处理
+            Start Processing
           </button>
         </div>
 
-        <!-- 加载动画 -->
+        <!-- Loading -->
         <div id="loading-indicator" class="hidden bg-white rounded-2xl shadow-sm border border-gray-200 p-12 text-center">
-          <div class="loader-dots mb-4">
-            <span></span><span></span><span></span>
-          </div>
-          <p class="text-sm text-slate-500">AI 正在处理您的文献...</p>
+          <div class="loader-dots mb-4"><span></span><span></span><span></span></div>
+          <p class="text-sm text-slate-500">AI is processing your document...</p>
         </div>
 
-        <!-- 结果展示区 -->
+        <!-- Results -->
         <div id="result-area" class="hidden bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="font-semibold text-slate-900">处理结果</h3>
+            <h3 class="font-semibold text-slate-900">Results</h3>
             <div class="flex items-center gap-2">
-              <span id="model-badge" class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-600">基础模型</span>
+              <span id="model-badge" class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-600">Basic Model</span>
             </div>
           </div>
           <div id="result-content" class="result-content text-sm text-slate-700 leading-relaxed space-y-2 max-h-[600px] overflow-y-auto">
-            <!-- JS 动态渲染 -->
+            <!-- JS rendered -->
           </div>
           <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
             <span id="result-meta" class="text-xs text-slate-400"></span>
             <div class="flex gap-2">
-              <button data-export="word" class="px-4 py-2 text-xs font-medium bg-gray-100 text-gray-400 rounded-lg cursor-not-allowed" title="导出为会员专属功能">
-                📄 导出 Word
+              <button data-export="word" class="px-4 py-2 text-xs font-medium bg-gray-100 text-gray-400 rounded-lg cursor-not-allowed" title="Export is a member-only feature">
+                📄 Export Word
                 <span class="ml-1 text-amber-500">🔒</span>
               </button>
-              <button data-export="pdf" class="px-4 py-2 text-xs font-medium bg-gray-100 text-gray-400 rounded-lg cursor-not-allowed" title="导出为会员专属功能">
-                📑 导出 PDF
+              <button data-export="pdf" class="px-4 py-2 text-xs font-medium bg-gray-100 text-gray-400 rounded-lg cursor-not-allowed" title="Export is a member-only feature">
+                📑 Export PDF
                 <span class="ml-1 text-amber-500">🔒</span>
               </button>
             </div>
           </div>
-          <!-- 升级提示 -->
           <div id="result-upgrade-tip" class="hidden mt-4 p-4 bg-blue-50 rounded-xl border border-blue-100">
             <p class="text-sm text-blue-700">
-              💡 以上为基础分析结果。<a href="#membership" class="font-semibold underline">升级会员</a> 解锁完整深度分析、多维度评估与一键导出。
+              💡 This is the basic analysis result. <a href="#membership" class="font-semibold underline">Upgrade to unlock</a> complete in-depth analysis, multi-dimensional evaluation, and one-click export.
             </p>
           </div>
         </div>
       </div>
 
-      <!-- 右侧：功能选择区 -->
+      <!-- Right: Function Selector -->
       <div class="space-y-6">
         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-          <h3 class="font-semibold text-slate-900 mb-4">选择功能</h3>
+          <h3 class="font-semibold text-slate-900 mb-4">Select Functions</h3>
           <div id="function-checkboxes" class="space-y-2">
-            <!-- JS 动态渲染 -->
+            <!-- JS rendered -->
           </div>
         </div>
 
-        <!-- 快捷提示 -->
         <div class="bg-amber-50 rounded-2xl border border-amber-200 p-5">
-          <h4 class="font-semibold text-amber-800 text-sm mb-2">💡 使用提示</h4>
+          <h4 class="font-semibold text-amber-800 text-sm mb-2">💡 Tips</h4>
           <ul class="text-xs text-amber-700 space-y-1.5">
-            <li>· 支持中英文文献，建议单次输入不超过 5000 字</li>
-            <li>· 免费用户每日可使用 3 次基础功能</li>
-            <li>· 高阶功能与导出为会员专属</li>
-            <li>· 上传文件功能为 UI 展示，实际处理需后端支持</li>
+            <li>· Supports text in multiple languages; recommended max 5,000 characters per submission</li>
+            <li>· Free users get 3 uses of basic functions per day</li>
+            <li>· Advanced functions and export are member-exclusive</li>
+            <li>· File upload is UI demo only — backend support pending</li>
           </ul>
         </div>
       </div>
@@ -312,163 +305,158 @@
 </section>
 
 <!-- ============================================================ -->
-<!--  会员中心页                                                   -->
+<!--  Membership Page                                              -->
 <!-- ============================================================ -->
 <section id="page-membership" class="page-section hidden">
 
-  <!-- 页面标题 -->
   <div class="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-      <h1 class="text-3xl md:text-4xl font-bold mb-4">选择适合您的会员方案</h1>
-      <p class="text-slate-300 max-w-lg mx-auto">解锁全部高阶功能，提升学术与职场文献处理效率</p>
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">Choose Your Plan</h1>
+      <p class="text-slate-300 max-w-lg mx-auto">Unlock all advanced features and supercharge your document workflow</p>
     </div>
   </div>
 
-  <!-- 三档套餐 -->
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8">
     <div id="membership-plans" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <!-- JS 动态渲染 -->
+      <!-- JS rendered -->
     </div>
   </div>
 
-  <!-- 权益对比表 -->
+  <!-- Detailed Comparison Table -->
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <h2 class="text-2xl font-bold text-slate-900 text-center mb-8">详细权益对比</h2>
+    <h2 class="text-2xl font-bold text-slate-900 text-center mb-8">Detailed Feature Comparison</h2>
     <div class="overflow-x-auto bg-white rounded-2xl shadow-sm border border-gray-200">
       <table class="w-full text-sm">
         <thead>
           <tr class="border-b border-gray-200 bg-gray-50">
-            <th class="text-left py-4 px-6 font-semibold text-slate-700">权益项</th>
-            <th class="text-center py-4 px-6 font-semibold text-slate-700">免费版</th>
-            <th class="text-center py-4 px-6 font-semibold text-blue-700 bg-blue-50">月卡会员</th>
-            <th class="text-center py-4 px-6 font-semibold text-slate-700">年卡会员</th>
+            <th class="text-left py-4 px-6 font-semibold text-slate-700">Feature</th>
+            <th class="text-center py-4 px-6 font-semibold text-slate-700">Free</th>
+            <th class="text-center py-4 px-6 font-semibold text-blue-700 bg-blue-50">Monthly</th>
+            <th class="text-center py-4 px-6 font-semibold text-slate-700">Yearly</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="border-b border-gray-100"><td class="py-4 px-6 text-slate-600 font-medium" colspan="4">基础功能</td></tr>
-          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">文献智能总结</td><td class="text-center py-3 px-6">每日 3 次</td><td class="text-center py-3 px-6 bg-blue-50 text-blue-700 font-medium">每日 30 次</td><td class="text-center py-3 px-6 text-green-700 font-medium">无限次</td></tr>
-          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">中英学术翻译</td><td class="text-center py-3 px-6">每日 3 次</td><td class="text-center py-3 px-6 bg-blue-50 text-blue-700 font-medium">每日 30 次</td><td class="text-center py-3 px-6 text-green-700 font-medium">无限次</td></tr>
-          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">关键词/摘要提取</td><td class="text-center py-3 px-6">每日 3 次</td><td class="text-center py-3 px-6 bg-blue-50 text-blue-700 font-medium">每日 30 次</td><td class="text-center py-3 px-6 text-green-700 font-medium">无限次</td></tr>
-          <tr class="border-b border-gray-100"><td class="py-4 px-6 text-slate-600 font-medium" colspan="4">高阶功能</td></tr>
-          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">多层级深度拆解</td><td class="text-center py-3 px-6 text-slate-300">—</td><td class="text-center py-3 px-6 bg-blue-50 text-blue-700 font-medium">✓</td><td class="text-center py-3 px-6 text-green-700 font-medium">✓</td></tr>
-          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">多文献对比分析</td><td class="text-center py-3 px-6 text-slate-300">—</td><td class="text-center py-3 px-6 bg-blue-50 text-blue-700 font-medium">✓（最多 5 篇）</td><td class="text-center py-3 px-6 text-green-700 font-medium">✓（最多 10 篇）</td></tr>
-          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">引用格式批量转换</td><td class="text-center py-3 px-6 text-slate-300">—</td><td class="text-center py-3 px-6 bg-blue-50 text-blue-700 font-medium">✓</td><td class="text-center py-3 px-6 text-green-700 font-medium">✓</td></tr>
-          <tr class="border-b border-gray-100"><td class="py-4 px-6 text-slate-600 font-medium" colspan="4">附加权益</td></tr>
-          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">导出（Word/PDF）</td><td class="text-center py-3 px-6 text-slate-300">—</td><td class="text-center py-3 px-6 bg-blue-50 text-blue-700 font-medium">✓</td><td class="text-center py-3 px-6 text-green-700 font-medium">✓</td></tr>
-          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">模型优先级</td><td class="text-center py-3 px-6">基础模型</td><td class="text-center py-3 px-6 bg-blue-50 text-blue-700 font-medium">优先模型</td><td class="text-center py-3 px-6 text-green-700 font-medium">优先高速模型</td></tr>
-          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">长文本处理</td><td class="text-center py-3 px-6">最多 5000 字</td><td class="text-center py-3 px-6 bg-blue-50 text-blue-700 font-medium">最多 20000 字</td><td class="text-center py-3 px-6 text-green-700 font-medium">最多 50000 字</td></tr>
-          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">专属模板</td><td class="text-center py-3 px-6 text-slate-300">—</td><td class="text-center py-3 px-6 bg-blue-50 text-slate-300">—</td><td class="text-center py-3 px-6 text-green-700 font-medium">✓</td></tr>
+          <tr class="border-b border-gray-100"><td class="py-4 px-6 text-slate-600 font-medium" colspan="4">Core Functions</td></tr>
+          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">Smart Summary</td><td class="text-center py-3 px-6">3 / day</td><td class="text-center py-3 px-6 bg-blue-50 text-blue-700 font-medium">30 / day</td><td class="text-center py-3 px-6 text-green-700 font-medium">Unlimited</td></tr>
+          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">Academic Translation</td><td class="text-center py-3 px-6">3 / day</td><td class="text-center py-3 px-6 bg-blue-50 text-blue-700 font-medium">30 / day</td><td class="text-center py-3 px-6 text-green-700 font-medium">Unlimited</td></tr>
+          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">Keyword/Abstract Extraction</td><td class="text-center py-3 px-6">3 / day</td><td class="text-center py-3 px-6 bg-blue-50 text-blue-700 font-medium">30 / day</td><td class="text-center py-3 px-6 text-green-700 font-medium">Unlimited</td></tr>
+          <tr class="border-b border-gray-100"><td class="py-4 px-6 text-slate-600 font-medium" colspan="4">Advanced Functions</td></tr>
+          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">Multi-Layer Deep Analysis</td><td class="text-center py-3 px-6 text-slate-300">—</td><td class="text-center py-3 px-6 bg-blue-50 text-blue-700 font-medium">✓</td><td class="text-center py-3 px-6 text-green-700 font-medium">✓</td></tr>
+          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">Multi-Document Comparison</td><td class="text-center py-3 px-6 text-slate-300">—</td><td class="text-center py-3 px-6 bg-blue-50 text-blue-700 font-medium">✓ (Up to 5)</td><td class="text-center py-3 px-6 text-green-700 font-medium">✓ (Up to 10)</td></tr>
+          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">Batch Citation Formatting</td><td class="text-center py-3 px-6 text-slate-300">—</td><td class="text-center py-3 px-6 bg-blue-50 text-blue-700 font-medium">✓</td><td class="text-center py-3 px-6 text-green-700 font-medium">✓</td></tr>
+          <tr class="border-b border-gray-100"><td class="py-4 px-6 text-slate-600 font-medium" colspan="4">Additional Benefits</td></tr>
+          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">Export (Word/PDF)</td><td class="text-center py-3 px-6 text-slate-300">—</td><td class="text-center py-3 px-6 bg-blue-50 text-blue-700 font-medium">✓</td><td class="text-center py-3 px-6 text-green-700 font-medium">✓</td></tr>
+          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">Model Priority</td><td class="text-center py-3 px-6">Basic</td><td class="text-center py-3 px-6 bg-blue-50 text-blue-700 font-medium">Priority</td><td class="text-center py-3 px-6 text-green-700 font-medium">Priority Fast</td></tr>
+          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">Max Text Length</td><td class="text-center py-3 px-6">5,000 chars</td><td class="text-center py-3 px-6 bg-blue-50 text-blue-700 font-medium">20,000 chars</td><td class="text-center py-3 px-6 text-green-700 font-medium">50,000 chars</td></tr>
+          <tr class="border-b border-gray-100"><td class="py-3 px-6 text-slate-600 pl-10">Exclusive Templates</td><td class="text-center py-3 px-6 text-slate-300">—</td><td class="text-center py-3 px-6 bg-blue-50 text-slate-300">—</td><td class="text-center py-3 px-6 text-green-700 font-medium">✓</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
-  <!-- 会员 FAQ -->
+  <!-- Membership FAQ -->
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-    <h2 class="text-2xl font-bold text-slate-900 text-center mb-8">常见问题</h2>
+    <h2 class="text-2xl font-bold text-slate-900 text-center mb-8">Frequently Asked Questions</h2>
     <div class="space-y-3">
       <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <button class="faq-question w-full text-left px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-          <span class="font-medium text-slate-700">会员可以随时取消吗？</span>
+          <span class="font-medium text-slate-700">Can I cancel my membership anytime?</span>
           <span class="faq-icon text-slate-400">▶</span>
         </button>
-        <div class="faq-answer hidden px-6 pb-4 text-sm text-slate-500">会员为订阅制，到期后不会自动续费。您也可以在个人中心随时查看会员状态和到期时间。</div>
+        <div class="faq-answer hidden px-6 pb-4 text-sm text-slate-500">Membership is subscription-based and will not auto-renew after expiry. You can check your membership status and expiration date anytime on your Account page.</div>
       </div>
       <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <button class="faq-question w-full text-left px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-          <span class="font-medium text-slate-700">免费版有哪些限制？</span>
+          <span class="font-medium text-slate-700">What are the limits of the free plan?</span>
           <span class="faq-icon text-slate-400">▶</span>
         </button>
-        <div class="faq-answer hidden px-6 pb-4 text-sm text-slate-500">免费用户每日可使用 3 次基础功能（文献总结、翻译、关键词提取）。高阶功能（深度拆解、多文献对比、引用格式转换）和导出功能需要开通会员。</div>
+        <div class="faq-answer hidden px-6 pb-4 text-sm text-slate-500">Free users can use 3 basic functions per day (summary, translation, keyword extraction). Advanced functions (deep analysis, multi-document comparison, citation formatting) and export require a membership.</div>
       </div>
       <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <button class="faq-question w-full text-left px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-          <span class="font-medium text-slate-700">月卡和年卡有什么区别？</span>
+          <span class="font-medium text-slate-700">What's the difference between Monthly and Yearly?</span>
           <span class="faq-icon text-slate-400">▶</span>
         </button>
-        <div class="faq-answer hidden px-6 pb-4 text-sm text-slate-500">年卡除了价格更优惠（相当于月卡的 8.3 折）外，还享受无限次使用、优先高速模型、50000 字长文本处理、最多 10 篇文献对比以及专属模板等额外权益。</div>
+        <div class="faq-answer hidden px-6 pb-4 text-sm text-slate-500">The yearly plan offers a ~16% discount compared to monthly. It also includes unlimited usage, Priority Fast model access, 50,000-character text processing, up to 10-document comparison, and exclusive templates.</div>
       </div>
       <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <button class="faq-question w-full text-left px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-          <span class="font-medium text-slate-700">支持哪些支付方式？</span>
+          <span class="font-medium text-slate-700">What payment methods are supported?</span>
           <span class="faq-icon text-slate-400">▶</span>
         </button>
-        <div class="faq-answer hidden px-6 pb-4 text-sm text-slate-500">当前为 demo 展示版本。正式上线后将支持微信支付、支付宝等主流支付方式。</div>
+        <div class="faq-answer hidden px-6 pb-4 text-sm text-slate-500">This is currently a demo version. Major payment methods including credit cards and digital wallets will be supported upon official launch.</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============================================================ -->
-<!--  个人中心页                                                   -->
+<!--  Account / Profile Page                                       -->
 <!-- ============================================================ -->
 <section id="page-profile" class="page-section hidden">
 
   <div class="bg-white border-b border-gray-200">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 class="text-2xl md:text-3xl font-bold text-slate-900">个人中心</h1>
+      <h1 class="text-2xl md:text-3xl font-bold text-slate-900">My Account</h1>
     </div>
   </div>
 
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-      <!-- 左侧：用户信息卡片 -->
+      <!-- Left: User Info Cards -->
       <div class="lg:col-span-1 space-y-6">
-        <!-- 基本信息 -->
         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 text-center">
           <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
             <span class="text-2xl">👤</span>
           </div>
-          <h3 id="profile-username" class="font-semibold text-slate-900 text-lg">学术用户</h3>
+          <h3 id="profile-username" class="font-semibold text-slate-900 text-lg">Scholar User</h3>
           <div class="mt-2">
-            <span id="profile-tier" class="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-600">免费用户</span>
+            <span id="profile-tier" class="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-600">Free</span>
           </div>
-          <p class="text-xs text-slate-400 mt-3" id="profile-member-since">注册时间：2025-01-15</p>
+          <p class="text-xs text-slate-400 mt-3" id="profile-member-since">Member since: 2025-01-15</p>
         </div>
 
-        <!-- 会员状态 -->
         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-          <h4 class="font-semibold text-slate-900 mb-4">会员状态</h4>
+          <h4 class="font-semibold text-slate-900 mb-4">Membership Status</h4>
           <div class="space-y-3 text-sm">
-            <div class="flex justify-between"><span class="text-slate-500">当前等级</span><span class="font-medium text-slate-700" id="profile-tier-text">免费用户</span></div>
-            <div class="flex justify-between"><span class="text-slate-500">到期时间</span><span class="font-medium text-slate-700" id="profile-expire">—</span></div>
-            <div class="flex justify-between"><span class="text-slate-500">今日剩余</span><span class="font-medium text-blue-600" id="profile-quota">3</span></div>
-            <div class="flex justify-between"><span class="text-slate-500">累计使用</span><span class="font-medium text-slate-700" id="profile-total-used">12</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Current Tier</span><span class="font-medium text-slate-700" id="profile-tier-text">Free</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Expires</span><span class="font-medium text-slate-700" id="profile-expire">—</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Remaining Today</span><span class="font-medium text-blue-600" id="profile-quota">3</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Total Uses</span><span class="font-medium text-slate-700" id="profile-total-used">12</span></div>
           </div>
           <a href="#membership" id="profile-upgrade-btn" class="block text-center mt-4 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-xl transition-colors">
-            升级会员
+            Upgrade
           </a>
         </div>
 
-        <!-- 快捷入口 -->
         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-          <h4 class="font-semibold text-slate-900 mb-3">快捷入口</h4>
+          <h4 class="font-semibold text-slate-900 mb-3">Quick Links</h4>
           <div class="space-y-1">
-            <a href="#" class="block px-3 py-2 text-sm text-slate-600 hover:bg-gray-50 rounded-lg transition-colors">📋 我的订单</a>
-            <a href="#" class="block px-3 py-2 text-sm text-slate-600 hover:bg-gray-50 rounded-lg transition-colors">⭐ 我的权益</a>
-            <a href="#" class="block px-3 py-2 text-sm text-slate-600 hover:bg-gray-50 rounded-lg transition-colors">⚙️ 账号设置</a>
-            <button onclick="App.logout()" class="w-full text-left px-3 py-2 text-sm text-red-500 hover:bg-red-50 rounded-lg transition-colors">🚪 退出登录</button>
+            <a href="#" class="block px-3 py-2 text-sm text-slate-600 hover:bg-gray-50 rounded-lg transition-colors">📋 My Orders</a>
+            <a href="#" class="block px-3 py-2 text-sm text-slate-600 hover:bg-gray-50 rounded-lg transition-colors">⭐ My Benefits</a>
+            <a href="#" class="block px-3 py-2 text-sm text-slate-600 hover:bg-gray-50 rounded-lg transition-colors">⚙️ Account Settings</a>
+            <button onclick="App.logout()" class="w-full text-left px-3 py-2 text-sm text-red-500 hover:bg-red-50 rounded-lg transition-colors">🚪 Log Out</button>
           </div>
         </div>
       </div>
 
-      <!-- 右侧：使用记录 -->
+      <!-- Right: Usage Records -->
       <div class="lg:col-span-2">
         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-          <h3 class="font-semibold text-slate-900 mb-4">使用记录</h3>
+          <h3 class="font-semibold text-slate-900 mb-4">Usage History</h3>
           <div class="overflow-x-auto">
             <table class="w-full text-sm">
               <thead>
                 <tr class="border-b border-gray-200">
-                  <th class="text-left py-3 px-2 font-medium text-slate-500">日期</th>
-                  <th class="text-left py-3 px-2 font-medium text-slate-500">功能</th>
-                  <th class="text-left py-3 px-2 font-medium text-slate-500">文献标题</th>
-                  <th class="text-right py-3 px-2 font-medium text-slate-500">字数</th>
+                  <th class="text-left py-3 px-2 font-medium text-slate-500">Date</th>
+                  <th class="text-left py-3 px-2 font-medium text-slate-500">Function</th>
+                  <th class="text-left py-3 px-2 font-medium text-slate-500">Document Title</th>
+                  <th class="text-right py-3 px-2 font-medium text-slate-500">Chars</th>
                 </tr>
               </thead>
               <tbody id="profile-records">
-                <!-- JS 动态渲染 -->
+                <!-- JS rendered -->
               </tbody>
             </table>
           </div>
@@ -479,250 +467,249 @@
 </section>
 
 <!-- ============================================================ -->
-<!--  帮助中心页                                                   -->
+<!--  Help Center Page                                             -->
 <!-- ============================================================ -->
 <section id="page-help" class="page-section hidden">
 
   <div class="bg-white border-b border-gray-200">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 class="text-2xl md:text-3xl font-bold text-slate-900">帮助中心</h1>
+      <h1 class="text-2xl md:text-3xl font-bold text-slate-900">Help Center</h1>
     </div>
   </div>
 
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- 帮助页 Tabs -->
     <div class="flex gap-2 mb-8 overflow-x-auto pb-2" id="help-tabs">
-      <button class="tab-btn shrink-0 px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white" data-tab="faq">常见问题</button>
-      <button class="tab-btn shrink-0 px-4 py-2 text-sm font-medium rounded-lg bg-gray-100 text-slate-600 hover:bg-gray-200 transition-colors" data-tab="tutorial">使用教程</button>
-      <button class="tab-btn shrink-0 px-4 py-2 text-sm font-medium rounded-lg bg-gray-100 text-slate-600 hover:bg-gray-200 transition-colors" data-tab="agreement">用户协议</button>
-      <button class="tab-btn shrink-0 px-4 py-2 text-sm font-medium rounded-lg bg-gray-100 text-slate-600 hover:bg-gray-200 transition-colors" data-tab="privacy">隐私政策</button>
-      <button class="tab-btn shrink-0 px-4 py-2 text-sm font-medium rounded-lg bg-gray-100 text-slate-600 hover:bg-gray-200 transition-colors" data-tab="payment-rules">付费规则</button>
+      <button class="tab-btn shrink-0 px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white" data-tab="faq">FAQ</button>
+      <button class="tab-btn shrink-0 px-4 py-2 text-sm font-medium rounded-lg bg-gray-100 text-slate-600 hover:bg-gray-200 transition-colors" data-tab="tutorial">Tutorial</button>
+      <button class="tab-btn shrink-0 px-4 py-2 text-sm font-medium rounded-lg bg-gray-100 text-slate-600 hover:bg-gray-200 transition-colors" data-tab="agreement">Terms of Service</button>
+      <button class="tab-btn shrink-0 px-4 py-2 text-sm font-medium rounded-lg bg-gray-100 text-slate-600 hover:bg-gray-200 transition-colors" data-tab="privacy">Privacy Policy</button>
+      <button class="tab-btn shrink-0 px-4 py-2 text-sm font-medium rounded-lg bg-gray-100 text-slate-600 hover:bg-gray-200 transition-colors" data-tab="payment-rules">Payment Terms</button>
     </div>
 
-    <!-- Tab: 常见问题 -->
+    <!-- Tab: FAQ -->
     <div class="tab-content" id="tab-faq">
       <div class="space-y-3">
         <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <button class="faq-question w-full text-left px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-            <span class="font-medium text-slate-700">如何使用 AI 文献助手？</span>
+            <span class="font-medium text-slate-700">How do I use AI Literature Assistant?</span>
             <span class="faq-icon text-slate-400">▶</span>
           </button>
-          <div class="faq-answer hidden px-6 pb-4 text-sm text-slate-500">在工具中心页面，粘贴您的文献文本或上传文件，勾选需要的功能，点击"开始处理"即可。免费用户每日可使用 3 次基础功能。</div>
+          <div class="faq-answer hidden px-6 pb-4 text-sm text-slate-500">Go to the Tools Center, paste your literature text or upload a file, select the functions you need, and click "Start Processing." Free users get 3 basic function uses per day.</div>
         </div>
         <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <button class="faq-question w-full text-left px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-            <span class="font-medium text-slate-700">支持哪些文献格式？</span>
+            <span class="font-medium text-slate-700">What document formats are supported?</span>
             <span class="faq-icon text-slate-400">▶</span>
           </button>
-          <div class="faq-answer hidden px-6 pb-4 text-sm text-slate-500">目前支持直接粘贴文本内容。文件上传（PDF/Word/TXT）功能为 UI 展示阶段，后续版本将完整支持文件解析。</div>
+          <div class="faq-answer hidden px-6 pb-4 text-sm text-slate-500">Direct text input is fully supported. File upload (PDF/Word/TXT) is currently in UI demo stage — full file parsing will be available in a future release.</div>
         </div>
         <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <button class="faq-question w-full text-left px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-            <span class="font-medium text-slate-700">处理结果准确吗？</span>
+            <span class="font-medium text-slate-700">How accurate are the results?</span>
             <span class="faq-icon text-slate-400">▶</span>
           </button>
-          <div class="faq-answer hidden px-6 pb-4 text-sm text-slate-500">本工具基于 DeepSeek 大模型，具备较强的学术文本理解能力。但 AI 生成结果仅供参考，重要学术判断请结合专业判断。</div>
+          <div class="faq-answer hidden px-6 pb-4 text-sm text-slate-500">This tool is powered by the DeepSeek large language model, which has strong academic text comprehension capabilities. However, AI-generated results are for reference only — please apply professional judgment for critical academic decisions.</div>
         </div>
         <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <button class="faq-question w-full text-left px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-            <span class="font-medium text-slate-700">文献内容会被存储吗？</span>
+            <span class="font-medium text-slate-700">Is my document content stored?</span>
             <span class="faq-icon text-slate-400">▶</span>
           </button>
-          <div class="faq-answer hidden px-6 pb-4 text-sm text-slate-500">不会。本工具仅对文献进行实时 AI 处理，不存储、不上传、不保留任何文献原文。处理完成后结果仅存在于您的本地会话中。</div>
+          <div class="faq-answer hidden px-6 pb-4 text-sm text-slate-500">No. This tool only processes documents in real time via AI. It does not store, upload, or retain any original text. Results only exist in your local session after processing completes.</div>
         </div>
         <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <button class="faq-question w-full text-left px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-            <span class="font-medium text-slate-700">如何升级会员？</span>
+            <span class="font-medium text-slate-700">How do I upgrade my membership?</span>
             <span class="faq-icon text-slate-400">▶</span>
           </button>
-          <div class="faq-answer hidden px-6 pb-4 text-sm text-slate-500">前往会员中心页面，选择月卡或年卡方案，点击开通即可。当前版本为 demo 展示，支付功能尚未正式上线。</div>
+          <div class="faq-answer hidden px-6 pb-4 text-sm text-slate-500">Go to the Membership page, choose either Monthly or Yearly plan, and click to subscribe. This is currently a demo version — payment processing is not yet live.</div>
         </div>
       </div>
     </div>
 
-    <!-- Tab: 使用教程 -->
+    <!-- Tab: Tutorial -->
     <div class="tab-content hidden" id="tab-tutorial">
       <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 space-y-8">
         <div>
-          <h3 class="text-lg font-semibold text-slate-900 mb-3">步骤一：输入文献内容</h3>
-          <p class="text-sm text-slate-600 leading-relaxed">在工具中心的文本框中粘贴您需要处理的文献段落。目前支持直接粘贴文本，建议单次输入不超过 5000 字以获得最佳效果。</p>
+          <h3 class="text-lg font-semibold text-slate-900 mb-3">Step 1: Enter Your Document</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Paste your literature text into the text box in the Tools Center. Direct text input is supported. For best results, limit each submission to around 5,000 characters.</p>
         </div>
         <div>
-          <h3 class="text-lg font-semibold text-slate-900 mb-3">步骤二：选择处理功能</h3>
-          <p class="text-sm text-slate-600 leading-relaxed">勾选右侧功能列表中的一项或多项。免费用户可使用文献总结、学术翻译和关键词提取；深度拆解、多文献对比和引用转换需升级会员。</p>
+          <h3 class="text-lg font-semibold text-slate-900 mb-3">Step 2: Choose Processing Functions</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Select one or more functions from the panel on the right. Free users can use Summary, Translation, and Keyword Extraction. Deep Analysis, Document Comparison, and Citation Formatting require a membership.</p>
         </div>
         <div>
-          <h3 class="text-lg font-semibold text-slate-900 mb-3">步骤三：获取 AI 处理结果</h3>
-          <p class="text-sm text-slate-600 leading-relaxed">点击"开始处理"按钮，AI 将在数秒内完成文献分析并展示结果。会员用户可享受优先模型和更详细的分析报告。</p>
+          <h3 class="text-lg font-semibold text-slate-900 mb-3">Step 3: Get AI Results</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Click "Start Processing" and the AI will analyze your document within seconds. Members enjoy priority model access and more detailed analysis reports.</p>
         </div>
         <div>
-          <h3 class="text-lg font-semibold text-slate-900 mb-3">步骤四：导出与复用</h3>
-          <p class="text-sm text-slate-600 leading-relaxed">会员用户可将处理结果导出为 Word 或 PDF 格式，方便存档或进一步编辑。</p>
+          <h3 class="text-lg font-semibold text-slate-900 mb-3">Step 4: Export &amp; Reuse</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Members can export results to Word or PDF format for archiving and further editing.</p>
         </div>
       </div>
     </div>
 
-    <!-- Tab: 用户协议 -->
+    <!-- Tab: Terms of Service -->
     <div class="tab-content hidden" id="tab-agreement">
       <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 prose prose-sm max-w-none text-slate-600 leading-relaxed">
-        <h2 class="text-xl font-bold text-slate-900 mb-4">用户协议</h2>
-        <p class="mb-4"><strong>生效日期：</strong>2025 年 1 月 1 日</p>
+        <h2 class="text-xl font-bold text-slate-900 mb-4">Terms of Service</h2>
+        <p class="mb-4"><strong>Effective Date:</strong> January 1, 2025</p>
 
-        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">1. 服务说明</h3>
-        <p>AI 文献助手（以下简称"本工具"）是一款基于人工智能技术的文献处理辅助工具，提供文献总结、翻译、关键词提取、深度拆解、多文献对比和引用格式转换等功能。本工具仅提供 AI 辅助处理服务，不构成学术建议。</p>
+        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">1. Service Description</h3>
+        <p>AI Literature Assistant ("the Service") is an AI-powered document processing tool providing literature summarization, translation, keyword extraction, deep analysis, multi-document comparison, and citation formatting. The Service provides AI-assisted processing only and does not constitute academic advice.</p>
 
-        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">2. 用户责任</h3>
-        <p>用户应合法使用本工具，不得利用本工具从事侵犯他人知识产权、抄袭、学术不端等违法违规行为。用户对其输入的内容和获得的结果承担全部责任。</p>
+        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">2. User Responsibilities</h3>
+        <p>Users shall use the Service lawfully and must not engage in activities that infringe intellectual property rights, facilitate plagiarism, or involve academic misconduct. Users bear full responsibility for the content they input and the results they obtain.</p>
 
-        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">3. 知识产权</h3>
-        <p>本工具的软件代码、界面设计、品牌标识等知识产权归运营方所有。用户输入内容的知识产权归用户所有，本工具不会对用户输入内容主张任何权利。</p>
+        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">3. Intellectual Property</h3>
+        <p>The Service's software code, interface design, and branding are the intellectual property of the operator. Users retain all intellectual property rights to the content they input. The Service makes no claim over user-input content.</p>
 
-        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">4. 免责声明</h3>
-        <p>本工具的 AI 生成结果仅供参考，不保证完全准确、完整或适用于特定用途。用户应自行判断和验证处理结果。因使用本工具产生的任何直接或间接损失，运营方不承担责任。</p>
+        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">4. Disclaimer</h3>
+        <p>AI-generated results are for reference purposes only. No guarantee is made regarding accuracy, completeness, or fitness for any particular purpose. Users should independently verify results. The operator shall not be liable for any direct or indirect damages arising from use of the Service.</p>
 
-        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">5. 服务变更</h3>
-        <p>运营方保留随时修改、暂停或终止部分或全部服务的权利，恕不另行通知。付费用户的权益在有效期内不受影响。</p>
+        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">5. Service Modifications</h3>
+        <p>The operator reserves the right to modify, suspend, or discontinue any part of the Service at any time without prior notice. Paid users' benefits are unaffected during their active subscription period.</p>
 
-        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">6. 协议修改</h3>
-        <p>本协议可能不定期更新，更新后的协议将在本页面公布。继续使用本工具即表示接受修改后的协议。</p>
+        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">6. Changes to Terms</h3>
+        <p>These Terms may be updated from time to time. Updated terms will be published on this page. Continued use of the Service constitutes acceptance of the revised terms.</p>
       </div>
     </div>
 
-    <!-- Tab: 隐私政策 -->
+    <!-- Tab: Privacy Policy -->
     <div class="tab-content hidden" id="tab-privacy">
       <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 prose prose-sm max-w-none text-slate-600 leading-relaxed">
-        <h2 class="text-xl font-bold text-slate-900 mb-4">隐私政策</h2>
-        <p class="mb-4"><strong>生效日期：</strong>2025 年 1 月 1 日</p>
+        <h2 class="text-xl font-bold text-slate-900 mb-4">Privacy Policy</h2>
+        <p class="mb-4"><strong>Effective Date:</strong> January 1, 2025</p>
 
-        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">1. 信息收集</h3>
-        <p>本工具为轻量级工具，仅在您使用服务时收集必要的最少信息，包括：浏览器自动提供的技术信息（IP 地址、浏览器类型等）以及您主动输入的文献文本内容。</p>
+        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">1. Information Collection</h3>
+        <p>The Service is a lightweight tool that collects only the minimum necessary information when you use it, including: browser-provided technical information (IP address, browser type, etc.) and the document content you voluntarily submit for processing.</p>
 
-        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">2. 信息使用</h3>
-        <p>您输入的内容仅用于本次 AI 处理请求，处理完成后不会被存储、分析或用于模型训练。技术信息仅用于服务优化和安全防护。</p>
+        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">2. Information Usage</h3>
+        <p>Your submitted content is used solely for the current AI processing request. It is not stored, analyzed, or used for model training after processing completes. Technical information is used only for service optimization and security.</p>
 
-        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">3. 信息存储</h3>
-        <p>本工具不存储用户的文献原文。用户的使用偏好（如会员状态、使用次数）仅存储在用户本地浏览器中。</p>
+        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">3. Information Storage</h3>
+        <p>The Service does not store original document text. User preferences (such as membership status and usage counts) are stored only in your local browser.</p>
 
-        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">4. 信息安全</h3>
-        <p>所有数据传输均采用加密协议。我们采取合理的技术手段保护用户信息安全，但无法保证互联网传输的绝对安全。</p>
+        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">4. Data Security</h3>
+        <p>All data transmission uses encryption protocols. We employ reasonable technical measures to protect user information, but cannot guarantee absolute security of internet transmission.</p>
 
-        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">5. 第三方服务</h3>
-        <p>本工具使用 DeepSeek 提供的 AI 模型服务。用户输入内容将被传输至 DeepSeek API 进行处理，请同时参考 DeepSeek 的隐私政策。</p>
+        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">5. Third-Party Services</h3>
+        <p>The Service uses AI model services provided by DeepSeek. User content is transmitted to the DeepSeek API for processing. Please also refer to DeepSeek's privacy policy.</p>
 
-        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">6. 联系方式</h3>
-        <p>如对本隐私政策有任何疑问，请通过帮助中心的"联系我们"入口与我们取得联系。</p>
+        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">6. Contact</h3>
+        <p>If you have any questions about this Privacy Policy, please contact us through the "Contact Us" link in the Help Center.</p>
       </div>
     </div>
 
-    <!-- Tab: 付费规则 -->
+    <!-- Tab: Payment Terms -->
     <div class="tab-content hidden" id="tab-payment-rules">
       <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 prose prose-sm max-w-none text-slate-600 leading-relaxed">
-        <h2 class="text-xl font-bold text-slate-900 mb-4">付费规则说明</h2>
-        <p class="mb-4"><strong>生效日期：</strong>2025 年 1 月 1 日</p>
+        <h2 class="text-xl font-bold text-slate-900 mb-4">Payment Terms</h2>
+        <p class="mb-4"><strong>Effective Date:</strong> January 1, 2025</p>
 
-        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">会员方案</h3>
-        <p>本工具提供三种服务方案：</p>
+        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">Membership Plans</h3>
+        <p>The Service offers three tiers:</p>
         <ul class="list-disc pl-5 space-y-1 mt-2">
-          <li><strong>免费版：</strong>每日 3 次基础功能（文献总结、学术翻译、关键词提取），无需付费。</li>
-          <li><strong>月卡会员：</strong>¥19/月，每日 30 次全部功能，含导出权限和优先模型。</li>
-          <li><strong>年卡会员：</strong>¥199/年，无限次全部功能，含优先高速模型和专属模板。</li>
+          <li><strong>Free:</strong> 3 basic functions per day (Summary, Translation, Keyword Extraction). No payment required.</li>
+          <li><strong>Monthly:</strong> $2.99/month. 30 uses/day across all functions, export capabilities, priority model.</li>
+          <li><strong>Yearly:</strong> $29.99/year. Unlimited uses, all functions, Priority Fast model, exclusive templates.</li>
         </ul>
 
-        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">付费方式</h3>
-        <p>当前版本为 demo 展示。正式上线后将支持微信支付、支付宝等主流支付方式。会员购买后立即生效。</p>
+        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">Payment Methods</h3>
+        <p>This is currently a demo version. Major payment methods including credit cards and digital wallets will be supported upon official launch. Membership activates immediately upon purchase.</p>
 
-        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">退款政策</h3>
-        <p>会员购买后不支持退款，请在购买前仔细阅读权益说明。如遇技术问题导致服务不可用，请联系客服协商处理。</p>
+        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">Refund Policy</h3>
+        <p>Membership purchases are non-refundable. Please review plan details carefully before purchasing. If a technical issue renders the Service unavailable, contact customer support for resolution.</p>
 
-        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">自动续费</h3>
-        <p>会员到期后不会自动续费，您可在到期前手动续费以保持会员状态。</p>
+        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">Auto-Renewal</h3>
+        <p>Memberships do NOT auto-renew. You may manually renew before your current membership expires to maintain your status.</p>
 
-        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">价格调整</h3>
-        <p>运营方保留调整价格的权利。价格调整不影响已购买会员的用户在有效期内享有的权益。</p>
+        <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">Price Adjustments</h3>
+        <p>The operator reserves the right to adjust pricing. Price changes do not affect existing members' benefits during their active subscription period.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============================================================ -->
-<!--  弹窗层（Modals）                                             -->
+<!--  Modals                                                       -->
 <!-- ============================================================ -->
 
-<!-- 新人福利弹窗 -->
+<!-- New User Gift Modal -->
 <div id="modal-new-user-gift" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
   <div class="modal-overlay absolute inset-0 bg-black/40" data-close-modal="modal-new-user-gift"></div>
   <div class="relative bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center animate-fade-in">
     <button class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl leading-none" data-close-modal="modal-new-user-gift" onclick="App.dismissNewUserGift()">&times;</button>
     <div class="text-5xl mb-4">🎁</div>
-    <h2 class="text-xl font-bold text-slate-900 mb-3">欢迎使用 AI 文献助手</h2>
-    <p class="text-sm text-slate-600 mb-2 leading-relaxed">新用户免费领取 <strong class="text-blue-600">3 天会员体验</strong>，畅享全部功能。</p>
-    <p class="text-xs text-slate-400 mb-6">限时福利，立即开启高效文献处理体验。</p>
+    <h2 class="text-xl font-bold text-slate-900 mb-3">Welcome to AI Literature Assistant</h2>
+    <p class="text-sm text-slate-600 mb-2 leading-relaxed">New users get a <strong class="text-blue-600">3-day free trial</strong> with full access to all features.</p>
+    <p class="text-xs text-slate-400 mb-6">Limited-time offer — start processing literature efficiently today.</p>
     <button onclick="App.claimNewUserGift()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">
-      免费领取
+      Claim Free Trial
     </button>
     <button onclick="App.dismissNewUserGift()" class="w-full mt-2 py-2 text-sm text-slate-400 hover:text-slate-600 transition-colors">
-      暂不领取
+      Maybe Later
     </button>
   </div>
 </div>
 
-<!-- 升级弹窗 -->
+<!-- Upgrade Modal -->
 <div id="modal-upgrade" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
   <div class="modal-overlay absolute inset-0 bg-black/40" data-close-modal="modal-upgrade"></div>
   <div class="relative bg-white rounded-2xl shadow-2xl max-w-sm w-full p-8 text-center animate-fade-in">
     <button class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl leading-none" data-close-modal="modal-upgrade">&times;</button>
     <div class="text-4xl mb-4">🔒</div>
-    <h2 class="text-lg font-bold text-slate-900 mb-3">升级会员，解锁完整功能</h2>
-    <p class="text-sm text-slate-600 mb-6 leading-relaxed">该功能为会员专属。开通会员即可使用深度拆解、多文献对比、引用格式转换等全部高阶功能，并享受优先模型与导出权限。</p>
+    <h2 class="text-lg font-bold text-slate-900 mb-3">Upgrade to Unlock All Features</h2>
+    <p class="text-sm text-slate-600 mb-6 leading-relaxed">This feature is exclusive to members. Upgrade to access deep analysis, multi-document comparison, citation formatting, priority models, and export capabilities.</p>
     <a href="#membership" onclick="document.getElementById('modal-upgrade').classList.add('hidden')" class="block w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors no-underline">
-      查看会员方案
+      View Plans
     </a>
     <button class="w-full mt-2 py-2 text-sm text-slate-400 hover:text-slate-600 transition-colors" data-close-modal="modal-upgrade">
-      继续使用免费版
+      Continue with Free
     </button>
   </div>
 </div>
 
-<!-- 支付确认弹窗 -->
+<!-- Payment Confirmation Modal -->
 <div id="modal-payment" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
   <div class="modal-overlay absolute inset-0 bg-black/40" data-close-modal="modal-payment"></div>
   <div class="relative bg-white rounded-2xl shadow-2xl max-w-sm w-full p-8 text-center animate-fade-in">
     <button class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl leading-none" data-close-modal="modal-payment">&times;</button>
     <div class="text-4xl mb-4">💳</div>
-    <h2 class="text-lg font-bold text-slate-900 mb-3">确认开通</h2>
+    <h2 class="text-lg font-bold text-slate-900 mb-3">Confirm Subscription</h2>
     <div class="bg-gray-50 rounded-xl p-4 mb-4">
-      <p class="text-sm text-slate-600">方案：<strong id="payment-plan-name">—</strong></p>
+      <p class="text-sm text-slate-600">Plan: <strong id="payment-plan-name">—</strong></p>
       <p class="text-2xl font-bold text-blue-600 mt-1" id="payment-plan-price">—</p>
     </div>
-    <p class="text-xs text-slate-400 mb-6">当前为 demo 展示版本 · 点击确认模拟支付</p>
+    <p class="text-xs text-slate-400 mb-6">Demo version · Click to simulate payment</p>
     <button onclick="App.confirmPayment()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">
-      确认支付（模拟）
+      Confirm Payment (Simulated)
     </button>
     <button class="w-full mt-2 py-2 text-sm text-slate-400 hover:text-slate-600 transition-colors" data-close-modal="modal-payment">
-      取消
+      Cancel
     </button>
   </div>
 </div>
 
-<!-- 额度用尽弹窗 -->
+<!-- Quota Exhausted Modal -->
 <div id="modal-quota-exhausted" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
   <div class="modal-overlay absolute inset-0 bg-black/40" data-close-modal="modal-quota-exhausted"></div>
   <div class="relative bg-white rounded-2xl shadow-2xl max-w-sm w-full p-8 text-center animate-fade-in">
     <button class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl leading-none" data-close-modal="modal-quota-exhausted">&times;</button>
     <div class="text-4xl mb-4">⏰</div>
-    <h2 class="text-lg font-bold text-slate-900 mb-3">今日免费次数已用完</h2>
+    <h2 class="text-lg font-bold text-slate-900 mb-3">Daily Free Limit Reached</h2>
     <p id="quota-exhausted-body" class="text-sm text-slate-600 mb-6 leading-relaxed"></p>
     <a href="#membership" onclick="document.getElementById('modal-quota-exhausted').classList.add('hidden')" class="block w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors no-underline">
-      升级会员
+      Upgrade Now
     </a>
     <button class="w-full mt-2 py-2 text-sm text-slate-400 hover:text-slate-600 transition-colors" data-close-modal="modal-quota-exhausted">
-      明天再来
+      Come Back Tomorrow
     </button>
   </div>
 </div>
 
 <!-- ============================================================ -->
-<!--  JavaScript 模块                                              -->
+<!--  JavaScript                                                    -->
 <!-- ============================================================ -->
 <script src="js/config.js"></script>
 <script src="js/auth.js"></script>
@@ -730,13 +717,10 @@
 <script src="js/router.js"></script>
 <script src="js/app.js"></script>
 
-<!-- 帮助中心 Tab 切换（轻量脚本，无需模块化） -->
+<!-- Help Center Tab Switching -->
 <script>
-// Tab 切换函数（供 footer 链接调用）
 function switchHelpTab(tabId) {
-  // 先导航到帮助页
   window.location.hash = 'help';
-  // 延迟切换 tab（等待页面渲染）
   setTimeout(function() {
     var btn = document.querySelector('#help-tabs .tab-btn[data-tab="' + tabId + '"]');
     if (btn) btn.click();
@@ -744,7 +728,6 @@ function switchHelpTab(tabId) {
 }
 
 (function() {
-  // 帮助中心 Tab 切换
   document.getElementById('help-tabs').addEventListener('click', function(e) {
     var btn = e.target.closest ? e.target.closest('.tab-btn') : (function(el) {
       while (el && el !== e.currentTarget) {
@@ -757,7 +740,6 @@ function switchHelpTab(tabId) {
 
     var tabId = btn.getAttribute('data-tab');
 
-    // 更新按钮状态
     document.querySelectorAll('#help-tabs .tab-btn').forEach(function(b) {
       b.classList.remove('bg-blue-600', 'text-white');
       b.classList.add('bg-gray-100', 'text-slate-600');
@@ -765,7 +747,6 @@ function switchHelpTab(tabId) {
     btn.classList.remove('bg-gray-100', 'text-slate-600');
     btn.classList.add('bg-blue-600', 'text-white');
 
-    // 切换内容
     document.querySelectorAll('.tab-content').forEach(function(c) {
       c.classList.add('hidden');
     });
@@ -774,6 +755,19 @@ function switchHelpTab(tabId) {
   });
 })();
 </script>
+
+<!-- Google Translate -->
+<script>
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'zh-CN,zh-TW,es,fr,de,ja,ko,ar,pt,ru,it,hi,th,vi',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
 
 </body>
 </html>
